@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>个人订单中心</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <link rel="shortcut icon" href="#"/>
+    <script src="/js/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body style="text-align: center;">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">个人订单中心</div>
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item layui-this"><a onclick="personalOrders.method.orderList(null, '#order-list-table');">全部</a></li>
+            <li class="layui-nav-item"><a onclick="personalOrders.method.orderList(1, '#order-deal-list-table');">待处理</a></li>
+            <li class="layui-nav-item"><a onclick="personalOrders.method.orderList(-1, '#order-over-list-table');">已过期</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <span class="" id="personal-select"></span>
+            <li class="layui-nav-item">
+                <a th:text="${user.accountName}"></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                    <dd><a href="/userView/index">返回主页</a></dd>
+                    <dd><a href="/userView/login">退出登录</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+<div>
+    <!-- 订单 -->
+    <div class="layui-hide" style="width: 100%;" id="order-list">
+        <table id="order-list-table" lay-filter="order-list-table-fit"></table>
+        <script type="text/html" id="order-list-table-operate">
+            {{# if(d.paymentStatusString == '已付款'){ }}
+            <a class="layui-btn layui-btn-xs" lay-event="info">下载</a>
+            {{#  } }}
+            {{# if(d.paymentStatusString == '待支付'){ }}
+            <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">支付</a>
+            {{#  } }}
+            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+        </script>
+    </div>
+</div>
+<script src="/layui/layui.all.js"></script>
+<script type="text/javascript" src="/js/order/personalOrders.js"></script>
+</body>
+</html>
