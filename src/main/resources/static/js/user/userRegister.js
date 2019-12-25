@@ -5,7 +5,7 @@ $(document).ready(function () {
         var data = {};
         data.mobile = $("#LAY-user-login-cellphone").val();
         $.ajax({
-            url:'/user/getUser',
+            url:'/user/get',
             data: JSON.stringify(data),
             contentType: "application/json",
             type:'post',

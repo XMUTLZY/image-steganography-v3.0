@@ -1,5 +1,7 @@
 package sch.xmut.jake.imagestegangraphy.utils;
 
+import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -54,5 +56,13 @@ public class SystemUtils {
             }
         }
         return ipAddress;
+    }
+
+    /**
+     * 编辑错误response
+     */
+    public static void buildErrorResponse(BaseResponse baseResponse) {
+        baseResponse.setStatusCode(BaseResponse.FAILD_CODE);
+        baseResponse.setStatus(BaseResponse.FAILD_STATUS);
     }
 }
