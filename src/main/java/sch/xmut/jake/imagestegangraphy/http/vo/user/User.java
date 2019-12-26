@@ -3,6 +3,7 @@ package sch.xmut.jake.imagestegangraphy.http.vo.user;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by jake.lin on 2019/12/25
@@ -36,10 +37,14 @@ public class User implements Serializable {
     private String portrait;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("create_time")
-    private String createTime;
+    private Date createTime;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("update_time")
-    private String updateTime;
+    private Date updateTime;
+    @JsonProperty("format_create_time")
+    private String formatCreateTime;
+    @JsonProperty("format_update_time")
+    private String formatUpdateTime;
 
     public Integer getId() {
         return id;
@@ -137,19 +142,36 @@ public class User implements Serializable {
         this.portrait = portrait;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    public String getFormatCreateTime() {
+        return formatCreateTime;
+    }
+
+    public void setFormatCreateTime(String formatCreateTime) {
+        this.formatCreateTime = formatCreateTime;
+    }
+
+    public String getFormatUpdateTime() {
+        return formatUpdateTime;
+    }
+
+    public void setFormatUpdateTime(String formatUpdateTime) {
+        this.formatUpdateTime = formatUpdateTime;
+    }
+
 }

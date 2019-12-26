@@ -1,7 +1,8 @@
 package sch.xmut.jake.imagestegangraphy.utils;
 
+import org.apache.shiro.codec.Hex;
+import org.apache.shiro.crypto.AesCipherService;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
-
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -64,5 +65,21 @@ public class SystemUtils {
     public static void buildErrorResponse(BaseResponse baseResponse) {
         baseResponse.setStatusCode(BaseResponse.FAILD_CODE);
         baseResponse.setStatus(BaseResponse.FAILD_STATUS);
+    }
+
+    /**
+     * AES加密算法
+     */
+    public static String aesEncode(byte[] bytes, String info) {
+        AesCipherService aesCipherService = new AesCipherService();
+        return aesCipherService.encrypt(info.getBytes(), bytes).toHex();
+    }
+
+    /**
+     * AES解密算法
+     */
+    public static String aesDecode(byte[] bytes, String info) {
+        AesCipherService aesCipherService = new AesCipherService();
+        return new String(aesCipherService.decrypt(Hex.decode(info), bytes).getBytes());
     }
 }

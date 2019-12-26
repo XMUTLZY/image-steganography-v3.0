@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
-import sch.xmut.jake.imagestegangraphy.http.response.UserResponse;
+import sch.xmut.jake.imagestegangraphy.http.response.user.UserResponse;
 import sch.xmut.jake.imagestegangraphy.service.UserService;
 
 /**
@@ -25,9 +25,11 @@ public class UserController {
 //
 //    }
 
+    //获取用户信息
     @PostMapping("/get")
     @ResponseBody
     public UserResponse get(@RequestBody UserRequest userRequest) {
         return userService.get(userRequest);
     }
+
 }

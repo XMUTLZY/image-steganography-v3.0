@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sch.xmut.jake.imagestegangraphy.domain.user.UserEntity;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
-import sch.xmut.jake.imagestegangraphy.http.response.UserResponse;
+import sch.xmut.jake.imagestegangraphy.http.response.user.UserResponse;
 import sch.xmut.jake.imagestegangraphy.http.vo.user.User;
 import sch.xmut.jake.imagestegangraphy.repository.user.UserRepository;
 import sch.xmut.jake.imagestegangraphy.utils.SystemUtils;
@@ -23,10 +23,12 @@ public class UserService {
         UserEntity userEntity = userRepository.findByMobile(userRequest.getMobile());
         if (userEntity == null) {
             userResponse.setMessage("查询不到该用户信息.");
+            userResponse.setIsRegister(UserResponse.IS_REGISTER_NO);
             return userResponse;
         }
         User user = buildUserByEntity(userEntity);
         userResponse.setVo(user);
+        userResponse.setIsRegister(UserResponse.IS_REGISTER_YES);
         return userResponse;
     }
 
@@ -34,11 +36,12 @@ public class UserService {
         User user = new User();
         BeanUtils.copyProperties(userEntity, user);
         if (userEntity.getCreateTime() != null) {
-            user.setCreateTime(SystemUtils.dateToFormat(userEntity.getCreateTime()));
+            user.setFormatCreateTime(SystemUtils.dateToFormat(userEntity.getCreateTime()));
         }
         if (userEntity.getUpdateTime() != null) {
-            user.setUpdateTime(SystemUtils.dateToFormat(userEntity.getUpdateTime()));
+            user.setFormatUpdateTime(SystemUtils.dateToFormat(userEntity.getUpdateTime()));
         }
         return user;
     }
+
 }

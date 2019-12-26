@@ -10,14 +10,14 @@ $(document).ready(function () {
             contentType: "application/json",
             type:'post',
             success:function (result) {
-                if(result == "true"){
+                if(result.is_register == 1){
                     layer.msg('该手机号已被注册');
                 }else{
                     //给定flag，用于判断是否进行验证码发送
                     flag = true;
                 }
             },
-            error:function (result) {
+            error:function () {
                 layer.msg('数据请求异常');
             }
         })
