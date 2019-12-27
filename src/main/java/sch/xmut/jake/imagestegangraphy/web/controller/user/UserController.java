@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
+import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.user.UserResponse;
 import sch.xmut.jake.imagestegangraphy.service.UserService;
 
@@ -19,11 +20,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @PostMapping("/register")
-//    @ResponseBody
-//    public UserResponse register(@RequestBody UserRequest userRequest) {
-//
-//    }
+    //注册
+    @PostMapping("/register")
+    @ResponseBody
+    public BaseResponse register(@RequestBody UserRequest userRequest) {
+        return userService.register(userRequest);
+    }
 
     //获取用户信息
     @PostMapping("/get")

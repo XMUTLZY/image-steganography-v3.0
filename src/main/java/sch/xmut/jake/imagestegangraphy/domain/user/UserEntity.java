@@ -39,7 +39,7 @@ public class UserEntity implements Serializable {
     @Column(name = "city")
     private String city;
     @Column(name = "status")
-    private Integer status;
+    private Integer status = UserConstant.USER_STATUS_PASS;
     @Column(name = "email")
     private String email;
     @Column(name = "company")

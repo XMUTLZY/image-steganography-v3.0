@@ -9,15 +9,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import sch.xmut.jake.cache.apicache.http.request.CacheRequest;
+import sch.xmut.jake.cache.apicache.http.response.BaseResponse;
 import sch.xmut.jake.imagestegangraphy.constants.CacheConstant;
 import sch.xmut.jake.imagestegangraphy.constants.CodeConstant;
 import sch.xmut.jake.imagestegangraphy.domain.api.ApiSmsEntity;
-import sch.xmut.jake.imagestegangraphy.http.request.cache.CacheRequest;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
-import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.api.CodeResponse;
 import sch.xmut.jake.imagestegangraphy.http.vo.api.ApiSms;
 import sch.xmut.jake.imagestegangraphy.repository.api.ApiSmsRepository;
+import sch.xmut.jake.imagestegangraphy.service.cache.CacheService;
 import sch.xmut.jake.imagestegangraphy.utils.SystemUtils;
 import java.io.IOException;
 import java.util.List;
@@ -65,7 +66,6 @@ public class ApiService {
                 new NameValuePair("Key", apiSms.getSmsKey()),
                 new NameValuePair("smsMob", userRequest.getMobile()),
                 new NameValuePair("smsText",apiSms.getSmsText() + code + "(有效期为" + lifeTime + "分钟)")};
-        codeResponse.setVo(apiSms);
         post.setRequestBody(data);
         String res = null;
         try {
@@ -78,6 +78,10 @@ public class ApiService {
         codeResponse.setCodeStatus(res);
         if ("1".equals(res)) {
             BaseResponse baseResponse = setCodeCache(code); //将验证码缓存在redis中，并设置生存周期
+            if (baseResponse.getStatusCode() == BaseResponse.FAILD_CODE) {
+                codeResponse.setMessage("验证码缓存设置失败");
+                return codeResponse;
+            }
         }
         buildCodeResponse(codeResponse, res);
         return codeResponse;
@@ -94,14 +98,21 @@ public class ApiService {
     }
 
     private BaseResponse setCodeCache(int code) {
+        BaseResponse response = new BaseResponse();
         CacheRequest cacheRequest = new CacheRequest();
         cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
-        cacheRequest.setKey("USER_REGISTER_CODE");
+        cacheRequest.setKey(CacheConstant.CODE_KEY);
         cacheRequest.setValue(String.valueOf(code));
-        BaseResponse baseResponse1 = cacheService.tringAdd(cacheRequest); //设置验证码缓存 key，value
+        BaseResponse baseResponse1 = cacheService.stringAdd(cacheRequest); //设置验证码缓存 key，value
+        if (baseResponse1.getStatusCode() == BaseResponse.FAILD_CODE) {
+            return baseResponse1;
+        }
         cacheRequest.setLifeTime(CodeConstant.CODE_LIFE_TIME);
-        BaseResponse baseResponse2 = cacheService.keySetTime(cacheRequest); //设置验证码生成时间
-        return new BaseResponse();
+        BaseResponse baseResponse2 = cacheService.keySetTime(cacheRequest); //设置验证码生存时间
+        if (baseResponse2.getStatusCode() == BaseResponse.FAILD_CODE) {
+            return baseResponse2;
+        }
+        return response;
     }
 
 }

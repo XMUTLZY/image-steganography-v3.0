@@ -30,8 +30,6 @@ public class ApiSmsEntity implements Serializable {
     private String smsText;
     @Column(name = "encrypt")
     private String encrypt;
-    @Column(name = "encryption_times")
-    private Integer encryptionTimes;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time")
     private Date createTime;
@@ -82,14 +80,6 @@ public class ApiSmsEntity implements Serializable {
 
     public void setEncrypt(String encrypt) {
         this.encrypt = encrypt;
-    }
-
-    public Integer getEncryptionTimes() {
-        return encryptionTimes;
-    }
-
-    public void setEncryptionTimes(Integer encryptionTimes) {
-        this.encryptionTimes = encryptionTimes;
     }
 
     public Date getCreateTime() {

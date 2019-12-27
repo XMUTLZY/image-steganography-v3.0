@@ -1,13 +1,13 @@
-package sch.xmut.jake.imagestegangraphy.http.response;
+package sch.xmut.jake.cache.apicache.http.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
- * Created by jake.lin on 2019/12/25
+ * Created by Jake.lin on 2019/12/27
  */
-public class BaseResponse<T> implements Serializable {
+public class BaseResponse implements Serializable {
     public static final Integer SUCCESS_CODE = 200;
     public static final Integer FAILD_CODE = 404;
     public static final String SUCCESS_STATUS = "success";
@@ -17,8 +17,6 @@ public class BaseResponse<T> implements Serializable {
     private String status = SUCCESS_STATUS;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String message;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private T vo;
 
     public BaseResponse(Integer statusCode, String status) {
         this.statusCode = statusCode;
@@ -51,13 +49,5 @@ public class BaseResponse<T> implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public T getVo() {
-        return vo;
-    }
-
-    public void setVo(T vo) {
-        this.vo = vo;
     }
 }

@@ -62,9 +62,10 @@ public class SystemUtils {
     /**
      * 编辑错误response
      */
-    public static void buildErrorResponse(BaseResponse baseResponse) {
+    public static void buildErrorResponse(BaseResponse baseResponse, String message) {
         baseResponse.setStatusCode(BaseResponse.FAILD_CODE);
         baseResponse.setStatus(BaseResponse.FAILD_STATUS);
+        baseResponse.setMessage(message);
     }
 
     /**

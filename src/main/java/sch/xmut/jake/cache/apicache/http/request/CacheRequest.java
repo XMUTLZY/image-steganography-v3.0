@@ -1,14 +1,15 @@
-package sch.xmut.jake.imagestegangraphy.http.request.cache;
+package sch.xmut.jake.cache.apicache.http.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import sch.xmut.jake.imagestegangraphy.constants.CacheConstant;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 
 /**
- * Created by jake.lin on 2019/12/26
+ * Created by Jake.lin on 2019/12/27
  */
-public class CacheRequest {
+public class CacheRequest implements Serializable {
     @NotNull
     private String member;
     @Pattern(regexp = CacheConstant.KEY_PATTERN, message = "只允许大写字母和_")
