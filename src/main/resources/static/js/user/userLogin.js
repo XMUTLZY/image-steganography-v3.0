@@ -6,17 +6,18 @@ $(document).ready(function () {
         $.ajax({
             url: '/user/login',
             contentType: "application/json",
-            data: JSON.stringify(data) ,
+            data: JSON.stringify(data),
+            type: 'post',
             success: function (result) {
-                if (result == "true") {
-                    layer.msg('登录成功');
+                if (result.status_code == 200) {
+                    layer.msg(result.message);
                     setTimeout(function () {
                         data = $("#LAY-user-login-username").val();
                         $.session.set('userPhone',data);
                         location.href = "/userView/index";
                     },1000)
                 } else {
-                    layer.msg('用户名或密码错误');
+                    layer.msg(result.message);
                 }
             },
             error: function () {

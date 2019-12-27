@@ -1,10 +1,12 @@
 package sch.xmut.jake.imagestegangraphy.service;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sch.xmut.jake.cache.apicache.http.request.CacheRequest;
 import sch.xmut.jake.cache.apicache.http.response.CacheResponse;
 import sch.xmut.jake.imagestegangraphy.constants.CacheConstant;
@@ -41,6 +43,7 @@ public class UserService {
         return userResponse;
     }
 
+    @Transactional
     public BaseResponse register(UserRequest userRequest) {
         BaseResponse response = new BaseResponse();
         CacheRequest cacheRequest = new CacheRequest();
@@ -63,6 +66,32 @@ public class UserService {
             return response;
         }
     }
+
+    public BaseResponse login(UserRequest userRequest) {
+        BaseResponse baseResponse = new BaseResponse();
+        UserEntity userEntity = userRepository.findByMobile(userRequest.getMobile());
+        User user = buildUserByEntity(userEntity);
+        if (userEntity == null) {
+            SystemUtils.buildErrorResponse(baseResponse, "用户不存在或已被拉黑");
+            return baseResponse;
+        }
+        String encrypt = userEntity.getEncrypt();
+        String encodePassword = new SimpleHash(UserConstant.ENCRYPTION_TYPE, userRequest.getPassword(), encrypt, UserConstant.ENCRYPTION_TIMES).toString();
+        if (!encodePassword.equals(userEntity.getPassword())) {
+            SystemUtils.buildErrorResponse(baseResponse, "密码错误");
+        } else {
+            baseResponse.setMessage("登录成功");
+            //将登录信息放入缓存
+            CacheRequest cacheRequest = new CacheRequest();
+            cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
+            cacheRequest.setKey(CacheConstant.USER_INFO_KEY);
+            cacheRequest.setValue(JSONObject.toJSONString(user));
+            cacheService.stringAdd(cacheRequest);
+        }
+        return baseResponse;
+    }
+
+
 
     private User buildUserByEntity(UserEntity userEntity) {
         User user = new User();

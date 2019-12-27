@@ -34,4 +34,11 @@ public class UserController {
         return userService.get(userRequest);
     }
 
+    //登录
+    @PostMapping("/login")
+    @ResponseBody
+    public BaseResponse login(@RequestBody UserRequest userRequest) {
+        return userService.login(userRequest);
+    }
+
 }
