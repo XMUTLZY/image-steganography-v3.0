@@ -1,5 +1,6 @@
 package sch.xmut.jake.imagestegangraphy.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -91,7 +92,13 @@ public class UserService {
         return baseResponse;
     }
 
-
+    public User getUserInfoFromCache() {
+        CacheRequest cacheRequest = new CacheRequest();
+        cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
+        cacheRequest.setKey(CacheConstant.USER_INFO_KEY);
+        User user = JSON.parseObject(cacheService.stringGet(cacheRequest).getValue(), User.class);
+        return user;
+    }
 
     private User buildUserByEntity(UserEntity userEntity) {
         User user = new User();

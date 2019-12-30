@@ -34,7 +34,7 @@ var personalOrders = {
             table.render({
                 elem: '#order-list-table'
                 , height: 485
-                , url: '/order/personalOrders'
+                , url: '/order/personal-orders'
                 , where: {
                     orderStatus: orderStatus
                 }
@@ -43,49 +43,49 @@ var personalOrders = {
                 , limits: [5, 10, 20]
                 , limit: 10
                 , cols: [[ //表头
-                    {field: 'orderNumber', title: '订单号', width: 190}
+                    {field: 'order_number', title: '订单号', width: 190}
                     , {
-                        field: 'orginalImage', title: '原始图片', width: 100, templet: function (d) {
-                            return '<div onclick="personalOrders.method.show_img(this)" ><img src="' + d.orginalImage + '" alt="" width="50px" height="50px"></a></div>';
+                        field: 'orginal_image', title: '原始图片', width: 100, templet: function (d) {
+                            return '<div onclick="personalOrders.method.show_img(this)" ><img src="' + d.orginal_image + '" alt="" width="50px" height="50px"></a></div>';
                         }
                     }
-                    , {field: 'hiddenData', title: '藏入信息', width: 220}
-                    , {field: 'paymentAmount', title: '已付金额', width: 95}
+                    , {field: 'hidden_data', title: '藏入信息', width: 220}
+                    , {field: 'payment_amout', title: '已付金额', width: 95}
                     , {
-                        field: 'resultImage1', title: '结果图1', width: 100, templet: function (d) {
-                            if (d.paymentStatusString == '待支付') {
-                                d.resultImage1 = d.resultImage1 + "?x-oss-process=style/resultImage_style2";
+                        field: 'result_image1', title: '结果图1', width: 100, templet: function (d) {
+                            if (d.payment_status_format == '待支付') {
+                                d.result_image1 = d.result_image1 + "?x-oss-process=style/resultImage_style2";
                             }
-                            return '<div onclick="personalOrders.method.show_img(this)" ><img src="' + d.resultImage1 + '" alt="" width="50px" height="50px"></a></div>';
+                            return '<div onclick="personalOrders.method.show_img(this)" ><img src="' + d.result_image1 + '" alt="" width="50px" height="50px"></a></div>';
                         }
                     }
                     , {
-                        field: 'resultImage2', title: '结果图2', width: 100, templet: function (d) {
-                            if (d.paymentStatusString == '待支付') {
-                                d.resultImage2 = d.resultImage2 + "?x-oss-process=style/resultImage_style2";
+                        field: 'result_image2', title: '结果图2', width: 100, templet: function (d) {
+                            if (d.payment_status_format == '待支付') {
+                                d.result_image2 = d.result_image2 + "?x-oss-process=style/resultImage_style2";
                             }
-                            return '<div onclick="personalOrders.method.show_img(this)" ><img src="' + d.resultImage2 + '" alt="" width="50px" height="50px"></a></div>';
+                            return '<div onclick="personalOrders.method.show_img(this)" ><img src="' + d.result_image2 + '" alt="" width="50px" height="50px"></a></div>';
                         }
                     }
-                    , {field: 'paymentStatusString', title: '付款状态', width: 100}
-                    , {field: 'orderTime', title: '订单生成时间', width: 175}
+                    , {field: 'payment_status_format', title: '付款状态', width: 100}
+                    , {field: 'order_time', title: '订单生成时间', width: 175}
                     , {field: 'operate', title: '操作', width: 253, toolbar: "#order-list-table-operate"}
                 ]]
             });
             table.on('tool(order-list-table-fit)', function (obj) {
                 if (obj.event == 'info') {
                     $.ajax({
-                        url: '/order/downloadImage',
+                        url: '/order/download-image',
                         type: 'get',
                         data: {
-                          orderNumber: obj.data.orderNumber
+                          order_number: obj.data.order_number
                         },
                         success: function (result) {
-                            if (result.code == 0) {
-                                personalOrders.method.downloadForCros(obj.data.resultImage1, obj.data.orderNumber + "_result_1.bmp");
-                                personalOrders.method.downloadForCros(obj.data.resultImage2, obj.data.orderNumber + "_result_2.bmp");
+                            if (result.status_code == 200) {
+                                personalOrders.method.downloadForCros(result.vo.result_image1, result.vo.order_number + "_result_1.bmp");
+                                personalOrders.method.downloadForCros(result.vo.result_image2, result.vo.order_number + "_result_2.bmp");
                             } else {
-                                layer.msg('查询不到该订单');
+                                layer.msg(result.message);
                             }
                         },
                         error: function () {

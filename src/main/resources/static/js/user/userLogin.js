@@ -13,7 +13,6 @@ $(document).ready(function () {
                     layer.msg(result.message);
                     setTimeout(function () {
                         data = $("#LAY-user-login-username").val();
-                        $.session.set('userPhone',data);
                         location.href = "/userView/index";
                     },1000)
                 } else {

@@ -2,7 +2,6 @@ package sch.xmut.jake.imagestegangraphy.http.vo.order;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import sch.xmut.jake.imagestegangraphy.constants.OrderConstant;
-import java.util.Date;
 
 /**
  * Created by jake.lin on 2019/12/25
@@ -19,19 +18,18 @@ public class Order {
     private String hiddenData;
     @JsonProperty("payment_amout")
     private String paymentAmount;
-    @JsonProperty("result_image_first")
-    private String resultImageOne;
-    @JsonProperty("result_image_second")
-    private String resultImageSecond;
+    @JsonProperty("result_image1")
+    private String resultImage1;
+    @JsonProperty("result_image2")
+    private String resultImage2;
     @JsonProperty("download_status")
     private Integer downloadStatus = OrderConstant.DOWNLOAD_NO;
     @JsonProperty("payment_status")
     private Integer paymentStatus = OrderConstant.PAYMENT_STATUS_NO;
     @JsonProperty("order_status")
     private Integer orderStatus = OrderConstant.ORDER_STATUS_EXIT;
-    private Date date;
-    @JsonProperty("payment_status_string")
-    private String paymentStatusString;
+    @JsonProperty("payment_status_format")
+    private String paymentStatusFormat;
     @JsonProperty("order_time")
     private String orderTime;
 
@@ -83,20 +81,20 @@ public class Order {
         this.paymentAmount = paymentAmount;
     }
 
-    public String getResultImageOne() {
-        return resultImageOne;
+    public String getResultImage1() {
+        return resultImage1;
     }
 
-    public void setResultImageOne(String resultImageOne) {
-        this.resultImageOne = resultImageOne;
+    public void setResultImage1(String resultImage1) {
+        this.resultImage1 = resultImage1;
     }
 
-    public String getResultImageSecond() {
-        return resultImageSecond;
+    public String getResultImage2() {
+        return resultImage2;
     }
 
-    public void setResultImageSecond(String resultImageSecond) {
-        this.resultImageSecond = resultImageSecond;
+    public void setResultImage2(String resultImage2) {
+        this.resultImage2 = resultImage2;
     }
 
     public Integer getDownloadStatus() {
@@ -123,27 +121,19 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getPaymentStatusString() {
-        return paymentStatusString;
-    }
-
-    public void setPaymentStatusString(String paymentStatusString) {
-        this.paymentStatusString = paymentStatusString;
-    }
-
     public String getOrderTime() {
         return orderTime;
     }
 
     public void setOrderTime(String orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public String getPaymentStatusFormat() {
+        return paymentStatusFormat;
+    }
+
+    public void setPaymentStatusFormat(String paymentStatusFormat) {
+        this.paymentStatusFormat = paymentStatusFormat;
     }
 }

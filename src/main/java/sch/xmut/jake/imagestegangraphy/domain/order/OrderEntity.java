@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by jake.lin on 2019/12/24
  */
-@Table(name = "order")
+@Table(name = "user_order")
 @Entity
 public class OrderEntity implements Serializable {
     @Id

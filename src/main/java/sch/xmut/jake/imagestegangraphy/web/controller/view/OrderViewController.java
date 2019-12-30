@@ -1,8 +1,11 @@
 package sch.xmut.jake.imagestegangraphy.web.controller.view;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sch.xmut.jake.imagestegangraphy.http.vo.user.User;
+import sch.xmut.jake.imagestegangraphy.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -11,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/orderView")
 @Controller
 public class OrderViewController {
+    @Autowired
+    private UserService userService;
     @RequestMapping("/details")
     public String orderDetails() {
         return "/order/orderDetails";
@@ -21,5 +26,12 @@ public class OrderViewController {
         String payIndex = (String) request.getSession().getAttribute("payIndex");
         model.addAttribute("payIndex", payIndex);
         return "/order/href";
+    }
+
+    @RequestMapping("/personalOrders")
+    public String userIndex(HttpServletRequest request, Model model) {
+        User user = userService.getUserInfoFromCache();
+        model.addAttribute("user", user);
+        return "/order/personalOrders";
     }
 }

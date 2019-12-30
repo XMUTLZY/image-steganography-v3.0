@@ -10,12 +10,12 @@ var userIndexJs = {
     event: {
         isToDownloadImage: function() {
             $.ajax({
-                url: '/order/isDownload',
+                url: '/order/get-no-download',
                 type: 'post',
                 data: JSON.stringify({}),
                 contentType: 'application/json',
                 success: function (result) {
-                    if (result) {
+                    if (result.vo != null) {
                         $("#my-order").addClass("layui-badge-dot");
                         $("#personal-select").addClass("layui-badge-dot");
                         layer.open({
@@ -25,26 +25,14 @@ var userIndexJs = {
                             ,area: '300px;'
                             ,shade: 0.8
                             ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-                            ,btn: ['立即下载', '残忍拒绝']
+                            ,btn: ['前往下载', '等等吧']
                             ,btnAlign: 'c'
                             ,moveType: 1 //拖拽模式，0或者1
                             ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; ' +
                                 'color: #fff; font-weight: 300;">亲！<br><br>发现您有已付款但未下载资源的订单哦！' +
-                                '<br><br>建议您优先下载 ^_^</div>'
-                            ,yes: function(index){
-                                layer.close(index);
-                                $.ajax({
-                                    url: '/order/downloadImage',
-                                    type: 'get',
-                                    success: function (result) {
-                                        for (i = 0; i<result.data.length; i++) {
-                                             userIndexJs.method.downloadForCros(result.data[i],  i + ".bmp")
-                                        }
-                                    },
-                                    error: function () {
-                                        layer.msg('数据请求异常');
-                                    }
-                                })
+                                '<br><br>建议您立即前往下载 ^_^</div>'
+                            ,yes: function(){
+                                location.href = "/orderView/personalOrders";
                             }
                             ,btn2: function() {
                             }

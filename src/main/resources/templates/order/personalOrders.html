@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>个人订单中心</title>
     <link rel="stylesheet" href="/layui/css/layui.css" media="all">
-    <link rel="shortcut icon" href="#"/>
+    <link rel="shortcut icon" href="/layui/images/face/65.gif"/>
     <script src="/js/jquery/2.0.0/jquery.min.js"></script>
 </head>
 <body style="text-align: center;">
@@ -13,7 +13,7 @@
         <div class="layui-logo">个人订单中心</div>
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item layui-this"><a onclick="personalOrders.method.orderList(null, '#order-list-table');">全部</a></li>
-            <li class="layui-nav-item"><a onclick="personalOrders.method.orderList(1, '#order-deal-list-table');">待处理</a></li>
+            <li class="layui-nav-item"><a onclick="personalOrders.method.orderList(1, '#order-deal-list-table');">待处理(下载/支付)</a></li>
             <li class="layui-nav-item"><a onclick="personalOrders.method.orderList(-1, '#order-over-list-table');">已过期</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
@@ -35,10 +35,10 @@
     <div class="layui-hide" style="width: 100%;" id="order-list">
         <table id="order-list-table" lay-filter="order-list-table-fit"></table>
         <script type="text/html" id="order-list-table-operate">
-            {{# if(d.paymentStatusString == '已付款'){ }}
+            {{# if(d.payment_status_format == '已付款'){ }}
             <a class="layui-btn layui-btn-xs" lay-event="info">下载</a>
             {{#  } }}
-            {{# if(d.paymentStatusString == '待支付'){ }}
+            {{# if(d.payment_status_format == '待支付'){ }}
             <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">支付</a>
             {{#  } }}
             <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>

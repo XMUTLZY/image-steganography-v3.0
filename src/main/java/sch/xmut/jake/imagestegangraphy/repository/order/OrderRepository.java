@@ -18,6 +18,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
     List<OrderEntity> noDownloadOrder(@Param("userId") Integer userId, @Param("paymentStatus") Integer paymentStatus,
                                           @Param("orderStatus") Integer orderStatus, @Param("downloadStatus") Integer downloadStatus);
     Page<OrderEntity> findAllByUserIdAndOrderStatus(Integer userId, Integer orderStatus, Pageable pageable);
+    List<OrderEntity> findAllByUserIdAndOrderStatus(Integer userId, Integer orderStatus);
     Page<OrderEntity> findAllByUserId(Integer userId, Pageable pageable);
     OrderEntity findByOrderNumber(String orderNumber);
 }
