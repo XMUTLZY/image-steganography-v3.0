@@ -1,5 +1,8 @@
 package sch.xmut.jake.imagestegangraphy.constants;
 
+/**
+ * Created by jake.lin on 2019/12/30
+ */
 public class OrderConstant {
     public static final Integer PAYMENT_STATUS_YES = 1;         //已支付
     public static final Integer PAYMENT_STATUS_NO = 0;          //未支付

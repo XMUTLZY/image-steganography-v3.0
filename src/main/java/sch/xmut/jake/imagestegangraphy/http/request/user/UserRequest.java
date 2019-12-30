@@ -12,6 +12,10 @@ public class UserRequest {
     @JsonProperty("account_name")
     private String accountName;
     private String company;
+    @JsonProperty("hidden_data")
+    private String hiddenData;
+    @JsonProperty("orginal_image")
+    private String orginalImage;
 
     public String getMobile() {
         return mobile;
@@ -51,5 +55,21 @@ public class UserRequest {
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public String getHiddenData() {
+        return hiddenData;
+    }
+
+    public void setHiddenData(String hiddenData) {
+        this.hiddenData = hiddenData;
+    }
+
+    public String getOrginalImage() {
+        return orginalImage;
+    }
+
+    public void setOrginalImage(String orginalImage) {
+        this.orginalImage = orginalImage;
     }
 }

@@ -33,4 +33,8 @@ public class CacheService {
         return keyServiceInterface.setTime(cacheRequest);
     }
 
+    //删除缓存数据
+    public BaseResponse stringDelete(CacheRequest cacheRequest) {
+        return stringCacheServiceInterface.delete(cacheRequest);
+    }
 }

@@ -1,4 +1,4 @@
-package sch.xmut.jake.imagestegangraphy.service;
+package sch.xmut.jake.imagestegangraphy.service.user;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -98,6 +98,13 @@ public class UserService {
         cacheRequest.setKey(CacheConstant.USER_INFO_KEY);
         User user = JSON.parseObject(cacheService.stringGet(cacheRequest).getValue(), User.class);
         return user;
+    }
+
+    public void clearUserInfoFromCache() {
+        CacheRequest cacheRequest = new CacheRequest();
+        cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
+        cacheRequest.setKey(CacheConstant.USER_INFO_KEY);
+        cacheService.stringDelete(cacheRequest);
     }
 
     private User buildUserByEntity(UserEntity userEntity) {

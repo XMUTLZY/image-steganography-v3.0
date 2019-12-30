@@ -104,12 +104,40 @@ var personalOrders = {
                         type: 'post',
                         data: JSON.stringify(data),
                         contentType: 'application/json',
-                        success: function (result) {
+                        success: function () {
                             location.href = "/orderView/href";
                         },
                         error: function () {
                             layer.msg('数据异常')
                         }
+                    })
+                }
+                if (obj.event == 'del') {
+                    layui.use('layer', function (layer) {
+                        layer.confirm('确定删除该订单吗？删除之后无法恢复哦', {
+                            btn: ['确定', '取消'] //按钮
+                        }, function () {
+                            $.ajax({
+                                url: '/order/delete',
+                                type: 'get',
+                                data: {
+                                    id: obj.data.id
+                                },
+                                success: function (result) {
+                                    if (result.status_code == 200) {
+                                        layer.msg("删除成功");
+                                        setTimeout(function () {
+                                            location.href = "/orderView/personalOrders";
+                                        },1000)
+                                    } else {
+                                        layer.msg(result.message);
+                                    }
+                                },
+                                error: function () {
+                                    layer.msg('数据异常');
+                                }
+                            })
+                        });
                     })
                 }
             });

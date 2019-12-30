@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import sch.xmut.jake.imagestegangraphy.domain.order.OrderEntity;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by jake.lin on 2019/12/25
@@ -19,6 +20,8 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
                                           @Param("orderStatus") Integer orderStatus, @Param("downloadStatus") Integer downloadStatus);
     Page<OrderEntity> findAllByUserIdAndOrderStatus(Integer userId, Integer orderStatus, Pageable pageable);
     List<OrderEntity> findAllByUserIdAndOrderStatus(Integer userId, Integer orderStatus);
-    Page<OrderEntity> findAllByUserId(Integer userId, Pageable pageable);
+    Page<OrderEntity> findAllByUserIdAndOrderStatusNot(Integer userId, Integer orderStatus, Pageable pageable);
     OrderEntity findByOrderNumber(String orderNumber);
+    Optional<OrderEntity> findById(Integer id);
+    List<OrderEntity> findAllByUserIdAndOrderStatusNot(Integer userId, Integer orderStatus);
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.user.UserResponse;
-import sch.xmut.jake.imagestegangraphy.service.UserService;
+import sch.xmut.jake.imagestegangraphy.service.user.UserService;
 
 /**
  * Created by jake.lin on 2019/12/25

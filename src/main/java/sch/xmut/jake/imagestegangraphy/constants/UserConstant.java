@@ -1,5 +1,8 @@
 package sch.xmut.jake.imagestegangraphy.constants;
 
+/**
+ * Created by jake.lin on 2019/12/30
+ */
 public class UserConstant {
     public static final String ENCRYPTION_TYPE = "md5";//加密类型
     public static final Integer ENCRYPTION_TIMES = 2;//加密次数

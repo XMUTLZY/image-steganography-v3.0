@@ -51,14 +51,14 @@ var userIndexJs = {
                 //普通图片上传
                 upload.render({
                     elem: '#image-upload'
-                    , url: '/upload/imageUrlOss'
+                    , url: '/api/image-upload-oss'
                     , accept: 'images'
-                    , before: function (obj) {
+                    , before: function () {
                         layer.load();
                     }
                     , done: function (res) {
                         layer.closeAll('loading');
-                        $("#original-image").attr('src', res.msg);
+                        $("#original-image").attr('src', res.image_url);
                     }
                     , error: function (index, upload) {
                         layer.msg("错误");
@@ -82,27 +82,27 @@ var userIndexJs = {
     method: {
         generateImage: function () {
             var data = {};
-            data.hiddenData = $("#input-info").val();
-            data.orginalImage = $("#original-image").attr("src");
-            if (data.orginalImage == "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%20%281%29.png") {
+            data.hidden_data = $("#input-info").val();
+            data.orginal_image = $("#original-image").attr("src");
+            if (data.orginal_image == "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%20%281%29.png") {
                 layer.msg("请先上传图片");
                 return;
             }
-            if (data.hiddenData == "") {
+            if (data.hidden_data == "") {
                 layer.msg("请输入需要藏入的信息");
                 return;
             }
             layer.load();
             $.ajax({
-                url: '/order/generateImage',
+                url: '/order/generate-image',
                 data: JSON.stringify(data),
                 type: 'post',
                 contentType: 'application/json',
                 success: function (result) {
                     layer.closeAll('loading');
                     layer.msg('信息藏入成功！')
-                    $("#resultImage1").attr("src", result.map["resultImageOne"]);
-                    $("#resultImage2").attr("src", result.map["resultImageTwo"]);
+                    $("#resultImage1").attr("src", result.result_image_map["resultImageOne"]);
+                    $("#resultImage2").attr("src", result.result_image_map["resultImageTwo"]);
                 },
                 error: function () {
                     layer.msg('数据异常');

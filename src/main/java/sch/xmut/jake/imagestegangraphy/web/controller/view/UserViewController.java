@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sch.xmut.jake.imagestegangraphy.http.vo.user.User;
-import sch.xmut.jake.imagestegangraphy.service.UserService;
+import sch.xmut.jake.imagestegangraphy.service.user.UserService;
 
 /**
  * Created by jake.lin on 2019/12/24
@@ -18,6 +18,7 @@ public class UserViewController {
 
     @RequestMapping("/login")
     public String userLogin() {
+        userService.clearUserInfoFromCache();//清理用户缓存
         return "/user/userLogin";
     }
 

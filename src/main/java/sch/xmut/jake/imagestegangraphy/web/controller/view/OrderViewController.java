@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sch.xmut.jake.imagestegangraphy.http.vo.user.User;
-import sch.xmut.jake.imagestegangraphy.service.UserService;
-import javax.servlet.http.HttpServletRequest;
+import sch.xmut.jake.imagestegangraphy.service.order.OrderService;
+import sch.xmut.jake.imagestegangraphy.service.user.UserService;
 
 /**
  * Created by lin on 2019/12/24
@@ -16,20 +16,22 @@ import javax.servlet.http.HttpServletRequest;
 public class OrderViewController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private OrderService orderService;
     @RequestMapping("/details")
     public String orderDetails() {
         return "/order/orderDetails";
     }
 
     @RequestMapping("/href")
-    public String test(HttpServletRequest request, Model model) {
-        String payIndex = (String) request.getSession().getAttribute("payIndex");
+    public String payIndexForm(Model model) {
+        String payIndex = orderService.getPayIndexFormCache().getValue();
         model.addAttribute("payIndex", payIndex);
         return "/order/href";
     }
 
     @RequestMapping("/personalOrders")
-    public String userIndex(HttpServletRequest request, Model model) {
+    public String userIndex(Model model) {
         User user = userService.getUserInfoFromCache();
         model.addAttribute("user", user);
         return "/order/personalOrders";
