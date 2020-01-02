@@ -95,20 +95,17 @@ var personalOrders = {
                 }
                 if (obj.event == 'edit') {
                     var data = {};
-                    data.out_trade_no = obj.data.orderNumber;
-                    data.total_amount = "5.00";
-                    data.subject = "图像隐写在线服务平台资源下载支付";
-                    data.body = "在您完成付款之后，平台会自动将生成的图片下载到您本地";
+                    data.id = obj.data.id;
+                    data.out_trade_no = personalOrders.method.generateOrderNumber();
                     $.ajax({
-                        url: '/order/pay',
+                        url: '/order/add-order-number',
                         type: 'post',
-                        data: JSON.stringify(data),
                         contentType: 'application/json',
-                        success: function () {
-                            location.href = "/orderView/href";
-                        },
-                        error: function () {
-                            layer.msg('数据异常')
+                        data: JSON.stringify(data),
+                        success: function (result) {
+                            if (result.status_code == 200) {
+                                personalOrders.method.payment(result.vo);
+                            }
                         }
                     })
                 }
@@ -169,6 +166,37 @@ var personalOrders = {
                 a.click()
             }
             x.send();
+        },
+        generateOrderNumber: function () {
+            var vNow = new Date();
+            var sNow = "";
+            sNow += String(vNow.getFullYear());
+            sNow += String(vNow.getMonth() + 1);
+            sNow += String(vNow.getDate());
+            sNow += String(vNow.getHours());
+            sNow += String(vNow.getMinutes());
+            sNow += String(vNow.getSeconds());
+            sNow += String(vNow.getMilliseconds());
+            return sNow;
+        },
+        payment: function (orderNumber) {
+            var data = {};
+            data.out_trade_no = orderNumber;
+            data.total_amount = "5.00";
+            data.subject = "图像隐写在线服务平台资源下载支付";
+            data.body = "在您完成付款之后，平台会自动将生成的图片下载到您本地";
+            $.ajax({
+                url: '/order/pay',
+                type: 'post',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (result) {
+                    location.href = "/orderView/href";
+                },
+                error: function () {
+                    layer.msg('数据异常')
+                }
+            })
         }
     }
 }

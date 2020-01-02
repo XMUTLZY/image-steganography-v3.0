@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sch.xmut.jake.imagestegangraphy.http.request.order.OrderPaymentRequest;
@@ -17,6 +18,10 @@ import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.LayerResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.order.ImageResultResponse;
 import sch.xmut.jake.imagestegangraphy.service.order.OrderService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by jake.lin on 2019/12/30
@@ -57,6 +62,13 @@ public class OrderController {
         return orderService.generateImage(userRequest);
     }
 
+    //添加订单号
+    @PostMapping("add-order-number")
+    @ResponseBody
+    public BaseResponse addOrderNumber(@RequestBody OrderPaymentRequest orderPaymentRequest) {
+        return orderService.addOrderNumber(orderPaymentRequest);
+    }
+
     //删除订单
     @GetMapping("/delete")
     @ResponseBody
@@ -69,5 +81,11 @@ public class OrderController {
     @ResponseBody
     public String payment(@RequestBody OrderPaymentRequest orderPaymentRequest) {
         return orderService.payment(orderPaymentRequest);
+    }
+
+    //支付宝同步回调
+    @RequestMapping(value = "/alipayReturnNotice", method = RequestMethod.GET)
+    public void alipayReturnNotice(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect(orderService.payResult(request));
     }
 }

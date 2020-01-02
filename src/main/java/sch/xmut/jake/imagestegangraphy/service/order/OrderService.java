@@ -1,8 +1,10 @@
 package sch.xmut.jake.imagestegangraphy.service.order;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
@@ -36,6 +38,7 @@ import sch.xmut.jake.imagestegangraphy.service.cache.CacheService;
 import sch.xmut.jake.imagestegangraphy.service.user.UserService;
 import sch.xmut.jake.imagestegangraphy.utils.SystemUtils;
 import stegangraphy.embeddingInfo;
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -43,6 +46,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -236,6 +240,23 @@ public class OrderService {
         return resultImageFormat;
     }
 
+    public BaseResponse addOrderNumber(OrderPaymentRequest orderPaymentRequest) {
+        BaseResponse response = new BaseResponse();
+        OrderEntity orderEntity = orderRepository.getOne(orderPaymentRequest.getId());
+        if (orderEntity == null) {
+            SystemUtils.buildErrorResponse(response, "订单不存在");
+            return response;
+        }
+        orderEntity.setOrderNumber(orderPaymentRequest.getOutTradeNo());
+        response.setVo(orderEntity.getOrderNumber());
+        Order order = new Order();
+        BeanUtils.copyProperties(orderEntity, order);
+        order.setOrderTime(SystemUtils.dateToFormat(orderEntity.getOrderTime()));
+        buildOrderInfoCache(order);
+        orderRepository.save(orderEntity);
+        return response;
+    }
+
     public BaseResponse deleteOrder(Integer id) {
         OrderEntity orderEntity = orderRepository.findById(id).get();
         orderEntity.setOrderStatus(OrderConstant.ORDER_STATUS_DELETE);
@@ -245,7 +266,7 @@ public class OrderService {
 
     public String payment(OrderPaymentRequest orderPaymentRequest) {
         String result = null;
-        ApiAlipay apiAlipay = apiService.getApiAlipayInfo();
+        ApiAlipay apiAlipay = apiService.getApiAlipayInfo();// 通过db获取支付沙箱接口参数
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConstant.GATEWAR_URL, AlipayConstant.APP_ID, AlipayConstant.MECHART_PRIVATE_KEY,
                 "json", AlipayConstant.CHARSET, AlipayConstant.APLPAY_PUBLIC_KEY, AlipayConstant.SIGN_TYPE);
         AlipayTradePagePayRequest alipayTradePagePayRequest = new AlipayTradePagePayRequest();
@@ -265,6 +286,55 @@ public class OrderService {
         return result;
     }
 
+    public String payResult(HttpServletRequest request) {
+        String trade_no = null;
+        String total_amount = null;
+        //获取支付宝GET过来反馈信息
+        Map<String,String> params = new HashMap<>();
+        Map<String,String[]> requestParams = request.getParameterMap();
+        for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
+            String name = iter.next();
+            String[] values = requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + ",";
+            }
+            try {
+                valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            params.put(name, valueStr);
+        }
+        boolean signVerified = false;//验证签名
+        try {
+            signVerified = AlipaySignature.rsaCheckV1(params, AlipayConstant.APLPAY_PUBLIC_KEY,
+                    AlipayConstant.CHARSET, AlipayConstant.SIGN_TYPE);
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        if (signVerified) {
+            try {
+                trade_no = new String(request.getParameter("out_trade_no").
+                        getBytes("ISO-8859-1"), "UTF-8");
+                total_amount = new String(request.getParameter("total_amount").
+                        getBytes("ISO-8859-1"), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            OrderEntity orderEntity = orderRepository.findFirstByOrderByOrderTimeDesc();
+            if (orderEntity.getPaymentStatus() == OrderConstant.PAYMENT_STATUS_YES) { //判断订单是否为新生成的
+                orderEntity = JSONObject.parseObject(getOrderInfoCache().getValue(), OrderEntity.class);
+            }
+            orderEntity.setOrderNumber(trade_no);
+            orderEntity.setPaymentAmount(total_amount);
+            orderEntity.setPaymentStatus(OrderConstant.PAYMENT_STATUS_YES);
+            orderRepository.save(orderEntity);
+        }
+        return "/userView/index";
+    }
+
     private void buildPayIndexFormCache(String result) {
         CacheRequest cacheRequest = new CacheRequest();
         cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
@@ -277,6 +347,21 @@ public class OrderService {
         CacheRequest cacheRequest = new CacheRequest();
         cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
         cacheRequest.setKey(CacheConstant.PAYMENT_INDEX_KEY);
+        return cacheService.stringGet(cacheRequest);
+    }
+
+    public void buildOrderInfoCache(Order order) {
+        CacheRequest cacheRequest = new CacheRequest();
+        cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
+        cacheRequest.setKey(CacheConstant.ORDER_INFO_KEY);
+        cacheRequest.setValue(JSONObject.toJSONString(order));
+        cacheService.stringAdd(cacheRequest);
+    }
+
+    public CacheResponse getOrderInfoCache() {
+        CacheRequest cacheRequest = new CacheRequest();
+        cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
+        cacheRequest.setKey(CacheConstant.ORDER_INFO_KEY);
         return cacheService.stringGet(cacheRequest);
     }
 }

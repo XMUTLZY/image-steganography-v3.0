@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by jake.lin on 2019/12/30
  */
 public class OrderPaymentRequest {
+    private Integer id;
     @JsonProperty("out_trade_no")
     private String outTradeNo;
     @JsonProperty("total_amount")
@@ -43,5 +44,13 @@ public class OrderPaymentRequest {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
