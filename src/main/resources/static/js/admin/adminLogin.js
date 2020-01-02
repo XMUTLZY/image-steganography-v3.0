@@ -10,12 +10,12 @@ $(document).ready(function () {
             contentType: 'application/json',
             type: 'post',
             success: function (result) {
-                if (result.msg == "SUCCESS") {
+                if (result.status_code == 200) {
                     setTimeout(function () {
                         location.href = "/adminView/index";
                     },1000)
                 } else {
-                    layer.msg(result.msg);
+                    layer.msg(result.message);
                 }
             },
             error: function () {

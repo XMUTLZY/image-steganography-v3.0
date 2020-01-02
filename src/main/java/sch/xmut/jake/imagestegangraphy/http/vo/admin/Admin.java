@@ -1,22 +1,29 @@
 package sch.xmut.jake.imagestegangraphy.http.vo.admin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import sch.xmut.jake.imagestegangraphy.constants.AdminConstant;
 import java.io.Serializable;
 import java.util.Date;
 
 public class Admin implements Serializable {
     private Integer id;
+    @JsonProperty("user_name")
     private String userName;
     private String mobile;
     private String password;
     private String encrypt;
+    @JsonProperty("real_name")
     private String realName;
+    @JsonProperty("role_id")
     private Integer roleId = AdminConstant.ADMIN_ROLE_LOW_ID;
     private String email;
     private Integer status = AdminConstant.ADMIN_STATUS_PASS;
     private String portrait = AdminConstant.DEFAULT_PORTRAIT;
+    @JsonProperty("role_name")
     private String roleName;
+    @JsonProperty("create_time")
     private Date createTime;
+    @JsonProperty("update_time")
     private Date updateTime;
     public Integer getId() {
         return id;
