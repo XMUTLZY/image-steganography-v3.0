@@ -32,6 +32,10 @@ public class Order {
     private String paymentStatusFormat;
     @JsonProperty("order_time")
     private String orderTime;
+    @JsonProperty("user_mobile")
+    private String userMobile;
+    @JsonProperty("user_account_name")
+    private String userAccountName;
 
     public Integer getId() {
         return id;
@@ -135,5 +139,21 @@ public class Order {
 
     public void setPaymentStatusFormat(String paymentStatusFormat) {
         this.paymentStatusFormat = paymentStatusFormat;
+    }
+
+    public String getUserMobile() {
+        return userMobile;
+    }
+
+    public void setUserMobile(String userMobile) {
+        this.userMobile = userMobile;
+    }
+
+    public String getUserAccountName() {
+        return userAccountName;
+    }
+
+    public void setUserAccountName(String userAccountName) {
+        this.userAccountName = userAccountName;
     }
 }

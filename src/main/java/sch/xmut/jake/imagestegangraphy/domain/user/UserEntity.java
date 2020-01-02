@@ -24,7 +24,6 @@ public class UserEntity implements Serializable {
     @GeneratedValue
     @Column(name = "id")
     private Integer id;
-    @Id
     @Column(name = "account_name")
     private String accountName;
     @Id

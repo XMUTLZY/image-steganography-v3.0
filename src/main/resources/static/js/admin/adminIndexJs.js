@@ -4,8 +4,31 @@ $(function () {
 var adminIndexJs = {
     bindEvent: function () {
         adminIndexJs.event.userList();
+        adminIndexJs.event.imageUpload();
     },
     event: {
+        imageUpload: function() {
+            layui.use('upload', function () {
+                var $ = layui.jquery
+                    , upload = layui.upload;
+                //普通图片上传
+                upload.render({
+                    elem: '#edit-portrait-btn'
+                    , url: '/api/image-upload-oss'
+                    , accept: 'images'
+                    , before: function () {
+                        layer.load();
+                    }
+                    , done: function (res) {
+                        layer.closeAll('loading');
+                        $("#edit-portrait-img").attr('src', res.image_url);
+                    }
+                    , error: function (index, upload) {
+                        layer.msg("错误");
+                    }
+                });
+            });
+        },
         userList: function () {
             layui.use('table', function () {
                 var table = layui.table;
@@ -17,27 +40,26 @@ var adminIndexJs = {
                 table.render({
                     elem: '#user-list-table'
                     , height: 485
-                    , url: '/admin/user/getAllUserList'
+                    , url: '/admin/user-list'
                     , page: true //开启分页
                     , limits: [5, 10, 20]
                     , limit: 10
                     , cols: [[ //表头
                         {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
                         , {field: 'mobile', title: '手机', width: 120}
-                        , {field: 'accountName', title: '用户名', width: 100}
-                        , {field: 'realName', title: '姓名', width: 100}
+                        , {field: 'account_name', title: '用户名', width: 100}
+                        , {field: 'real_name', title: '姓名', width: 100}
                         , {field: 'city', title: '城市', width: 100}
-                        , {field: 'status', title: '状态', width: 80, sort: true}
-                        , {field: 'email', title: '邮箱', width: 130}
-                        , {field: 'company', title: '单位', width: 150}
+                        , {field: 'email', title: '邮箱', width: 160}
+                        , {field: 'company', title: '单位', width: 190}
                         , {field: 'career', title: '职业', width: 110}
                         , {
                             field: 'portrait', title: '头像', width: 100, templet: function (d) {
                                 return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.portrait + '" alt="" width="50px" height="50px"></a></div>';
                             }
                         }
-                        , {field: 'createTime', title: '创建时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
-                        , {field: 'updateTime', title: '更新时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.updateTime, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
+                        , {field: 'create_time', title: '创建时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.create_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
+                        , {field: 'update_time', title: '更新时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.update_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
                         , {
                             field: 'operate',
                             title: '操作',
@@ -50,87 +72,60 @@ var adminIndexJs = {
                 table.on('tool(user-list-table-fit)', function (obj) {
                     if (obj.event === 'del') {
                         layer.confirm('确定删除该用户？', function (index) {
-                            var dataRequest = {};
-                            dataRequest.mobile = obj.data.mobile;
                             $.ajax({
-                                url: '/admin/user/deleteUser',
-                                data: JSON.stringify(dataRequest),
-                                contentType: 'application/json',
-                                type: 'post',
-                                success: function () {
-                                    layer.msg("删除成功");
-                                    adminIndexJs.event.userList();
+                                url: '/admin/user-delete',
+                                data: {
+                                    mobile: obj.data.mobile
+                                },
+                                type: 'get',
+                                success: function (result) {
+                                    if (result.code == 0) {
+                                        layer.msg("删除成功");
+                                        adminIndexJs.event.userList();
+                                    }
+                                },
+                                error: function () {
+                                    layer.msg("数据请求异常");
                                 }
                             })
                         })
                     } else {
-                        var data = {};
-                        data.mobile = obj.data.mobile;
                         $.ajax({
-                            url: '/admin/user/showUser',
-                            data: JSON.stringify(data),
-                            contentType: 'application/json',
-                            type: 'post',
+                            url: '/admin/user-get',
+                            data: {
+                                mobile: obj.data.mobile
+                            },
+                            type: 'get',
                             success: function (result) {
-                                var jsonlist = eval('(' + result + ')');//解析json
-                                layer.open({
-                                    type: 1,
-                                    title: '修改用户信息',
-                                    shift: 7,
-                                    area: 'auto',
-                                    maxWidth: 800,
-                                    maxHeight: 1200,
-                                    shadeClose: true,
-                                    content: "<div class='layui-form'>\n" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "     <label class=\"layui-form-label\">手机</label>\n" +
-                                        "     <div class=\"layui-input-inline\">\n" +
-                                        "        <input type=\"phone\" id=\"show-mobile\" disabled=\"disabled\" required lay-verify=\"required\" value=" + jsonlist.mobile + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                        "     </div>\n" +
-                                        "     <div class=\"layui-form-mid layui-word-aux\" style='color: red;'>无法更改</div>\n" +
-                                        "   </div>" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "    <label class=\"layui-form-label\">用户名</label>\n" +
-                                        "    <div class=\"layui-input-inline\">\n" +
-                                        "      <input type=\"name\" id=\"show-account-name\" required lay-verify=\"required\" value=" + jsonlist.accountName + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                        "    </div>\n" +
-                                        "  </div>" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "    <label class=\"layui-form-label\">姓名</label>\n" +
-                                        "    <div class=\"layui-input-inline\">\n" +
-                                        "      <input type=\"name\" id=\"show-real-name\" required lay-verify=\"required\" value=" + jsonlist.realName + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                        "    </div>\n" +
-                                        "  </div>" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "    <label class=\"layui-form-label\">城市</label>\n" +
-                                        "    <div class=\"layui-input-inline\">\n" +
-                                        "      <input type=\"name\" id=\"show-city\" required lay-verify=\"required\" value=" + jsonlist.city + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                        "    </div>\n" +
-                                        "  </div>" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "    <label class=\"layui-form-label\">邮箱</label>\n" +
-                                        "    <div class=\"layui-input-inline\">\n" +
-                                        "      <input type=\"email\" id=\"show-email\" required lay-verify=\"required\" value=" + jsonlist.email + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                        "    </div>\n" +
-                                        "  </div>" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "    <label class=\"layui-form-label\">单位</label>\n" +
-                                        "    <div class=\"layui-input-inline\">\n" +
-                                        "      <input type=\"name\" id=\"show-company\" required lay-verify=\"required\" value=" + jsonlist.company + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                        "    </div>\n" +
-                                        "  </div>" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "    <label class=\"layui-form-label\">职业</label>\n" +
-                                        "    <div class=\"layui-input-inline\">\n" +
-                                        "      <input type=\"name\" id=\"show-career\" required lay-verify=\"required\" value=" + jsonlist.career + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                        "    </div>\n" +
-                                        "  </div>" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "    <div class=\"layui-input-inline\">\n" +
-                                        "     <button style='margin-left: 150px;' type='button' class='layui-btn' onclick='adminIndexJs.method.updateUserBtn();'>提交</button></div>\n" +
-                                        "    </div>\n" +
-                                        "  </div>\n" +
-                                        "</div>\n"
+                                $("#edit-mobile").val(result.vo.mobile);
+                                $("#edit-account-name").val(result.vo.account_name);
+                                $("#edit-career").val(result.vo.career);
+                                $("#edit-city").val(result.vo.city);
+                                $("#edit-company").val(result.vo.company);
+                                $("#edit-email").val(result.vo.email);
+                                $("#edit-real-name").val(result.vo.real_name);
+                                $("#edit-portrait-img").attr('src', result.vo.portrait);
+                                layui.use(['layer', 'form'], function (layer, form) {
+                                    layer.open({
+                                        type: 1
+                                        , skin: 'examine-refuse-popup'
+                                        , offset: 'auto'
+                                        , title: '编辑用户'
+                                        , id: 'layer-id'
+                                        , area: ['600px', '700px']
+                                        , content: $("#dialog-edit-user-info")
+                                        , btn: ['确定', '取消']
+                                        , shade: 0.5 //不显示遮罩
+                                        , end: function () {
+                                            $("#dialog-edit-user-info").css("display", "none");
+                                        }
+                                        , yes: function () {
+                                            adminIndexJs.method.updateUserBtn();
+                                        },
+                                        btn2: function () {
+
+                                        }
+                                    });
                                 });
                             }
                         })
@@ -141,23 +136,28 @@ var adminIndexJs = {
     },
     method: {
         updateUserBtn: function () {
-            layer.close(layer.index);
+            layer.closeAll();
             var data = {};
-            data.mobile = $("#show-mobile").val();
-            data.accountName = $("#show-account-name").val();
-            data.realName = $("#show-real-name").val();
-            data.city = $("#show-city").val();
-            data.email = $("#show-email").val();
-            data.company = $("#show-company").val();
-            data.career = $("#show-career").val();
+            data.mobile = $("#edit-mobile").val();
+            data.account_name = $("#edit-account-name").val();
+            data.real_name = $("#edit-real-name").val();
+            data.city = $("#edit-city").val();
+            data.email = $("#edit-email").val();
+            data.company = $("#edit-company").val();
+            data.career = $("#edit-career").val();
+            data.portrait = $("#edit-portrait-img").attr("src");
             $.ajax({
-                url: '/admin/user/updateUser',
+                url: '/admin/user-update',
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 type: 'post',
                 success: function (result) {
-                    layer.msg(result.msg);
-                    adminIndexJs.event.userList();
+                    if (result.status_code == 200) {
+                        layer.msg("修改成功");
+                        adminIndexJs.event.userList();
+                    } else {
+                        layer.msg(result.message);
+                    }
                 }
             })
         },
@@ -165,7 +165,7 @@ var adminIndexJs = {
             var data = {};
             data.mobile = $("#search-mobile").val();
             data.company = $("#search-company").val();
-            data.accountName = $("#search-account-name").val();
+            data.account_name = $("#search-account-name").val();
             layui.use('table', function () {
                 var table = layui.table;
                 //第一个实例
@@ -175,32 +175,30 @@ var adminIndexJs = {
                     , where: {
                         mobile: $("#search-mobile").val(),
                         company: $("#search-company").val(),
-                        accountName: $("#search-account-name").val()
+                        account_name: $("#search-account-name").val()
                     }
                     , method: 'post'
                     , contentType: 'application/json'
-                    , url: '/admin/user/findUser'
+                    , url: '/admin/user-search'
                     , page: true //开启分页
                     , limits: [5, 10, 20]
                     , limit: 10
-                    , skin: 'line'
                     , cols: [[ //表头
                         {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
                         , {field: 'mobile', title: '手机', width: 120}
-                        , {field: 'accountName', title: '用户名', width: 100}
-                        , {field: 'realName', title: '姓名', width: 100}
+                        , {field: 'account_name', title: '用户名', width: 100}
+                        , {field: 'real_name', title: '姓名', width: 100}
                         , {field: 'city', title: '城市', width: 100}
-                        , {field: 'status', title: '状态', width: 80, sort: true}
-                        , {field: 'email', title: '邮箱', width: 130}
-                        , {field: 'company', title: '单位', width: 150}
+                        , {field: 'email', title: '邮箱', width: 160}
+                        , {field: 'company', title: '单位', width: 190}
                         , {field: 'career', title: '职业', width: 110}
                         , {
                             field: 'portrait', title: '头像', width: 100, templet: function (d) {
                                 return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.portrait + '" alt="" width="50px" height="50px"></a></div>';
                             }
                         }
-                        , {field: 'createTime', title: '创建时间', width: 180, sort: true}
-                        , {field: 'updateTime', title: '更新时间', width: 180, sort: true}
+                        , {field: 'create_time', title: '创建时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.create_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
+                        , {field: 'update_time', title: '更新时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.update_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
                         , {
                             field: 'operate',
                             title: '操作',
@@ -212,67 +210,6 @@ var adminIndexJs = {
                 });
             });
         },
-        addUser1: function () {
-            layer.open({
-                type: 1,
-                title: '添加用户',
-                shift: 7,
-                area: 'auto',
-                maxWidth: 600,
-                maxHeight: 600,
-                shadeClose: true,
-                content: "<div class='layui-form'>\n" +
-                    "<div class=\"layui-form-item\">\n" +
-                    "       <label class=\"layui-form-label\">手机号</label>\n" +
-                    "       <div class=\"layui-input-inline\">\n" +
-                    "           <input type=\"phone\" id=\"addphone\" required lay-verify=\"required\" placeholder=\"请输入手机号\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                    "       </div>\n" +
-                    "       <div class=\"layui-form-mid layui-word-aux\">辅助文字</div>\n" +
-                    "      </div>" +
-                    "  <div class=\"layui-form-item\">\n" +
-                    "    <label class=\"layui-form-label\">密码</label>\n" +
-                    "    <div class=\"layui-input-inline\">\n" +
-                    "      <input type=\"text\" id=\"addpassword\" required lay-verify=\"required\" placeholder=\"请输入密码\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                    "    </div>\n" +
-                    "  </div>" +
-                    "  <div class=\"layui-form-item\">\n" +
-                    "    <label class=\"layui-form-label\">用户名</label>\n" +
-                    "    <div class=\"layui-input-inline\">\n" +
-                    "      <input type=\"name\" id=\"addname\" required lay-verify=\"required\" placeholder=\"请输入用户名\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                    "    </div>\n" +
-                    "  </div>" +
-                    "  <div class=\"layui-form-item\">\n" +
-                    "    <div class=\"layui-input-inline\">\n" +
-                    "     <button style='margin-left: 150px;' type='button' class='layui-btn' onclick='adminIndexJs.method.subUser1()'>提交</button></div>\n" +
-                    "    </div>\n" +
-                    "  </div>\n" +
-                    "</div>\n"
-            });
-        },
-        subUser1: function () {
-            layer.close(layer.index);
-            var data = {};
-            data.mobile = $("#addphone").val();
-            data.password = $("#addpassword").val();
-            data.accountName = $("#addname").val()
-            $.ajax({
-                url: '/admin/user/addUser',
-                type: 'post',
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                success: function (result) {
-                    if (result.msg == "SUCCESS") {
-                        layer.msg('添加用户成功');
-                        adminIndexJs.event.userList();
-                        return;
-                    }
-                    layer.msg('添加用户失败');
-                },
-                error: function () {
-                    layer.msg('数据异常');
-                }
-            })
-        },
         orderList: function () {
             layui.use('table', function () {
                 var table = layui.table;
@@ -282,26 +219,35 @@ var adminIndexJs = {
                 $("#system-list").addClass('layui-hide');
                 //第一个实例
                 table.render({
-                    elem: '#demo3'
+                    elem: '#order-list'
                     , height: 485
-                    , url: 'payList' //数据接口
+                    , url: '/admin/order-list'
                     , page: true //开启分页
                     , limits: [5, 10, 20]
                     , limit: 10
                     , cols: [[ //表头
-                        {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
-                        , {field: 'phone', title: '手机号', width: 120}
+                        {field: 'order_number', title: '订单号', width: 220, sort: true, fixed: 'left'}
+                        , {field: 'user_mobile', title: '手机号', width: 120}
+                        , {field: 'user_account_name', title: '用户名', width: 100}
                         , {
-                            field: 'orginalImage', title: '原始图片', width: 100, templet: function (d) {
-                                return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.orginalImage + '" alt="" width="50px" height="50px"></a></div>';
+                            field: 'orginal_image', title: '原始图片', width: 100, templet: function (d) {
+                                return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.orginal_image + '" alt="" width="50px" height="50px"></a></div>';
                             }
                         }
-                        , {field: 'inputInfo', title: '藏入信息', width: 110}
-                        , {field: 'money', title: '已付金额', width: 105}
-                        , {field: 'pay_time', title: '订单号', width: 145}
-                        , {field: 'star', title: '满意度', width: 80}
-                        , {field: 'evaluate', title: '评价', width: 140}
-                        , {field: 'evaluate_time', title: '评价时间', width: 105}
+                        , {
+                            field: 'result_image1', title: '结果图1', width: 100, templet: function (d) {
+                                return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.result_image1 + '" alt="" width="50px" height="50px"></a></div>';
+                            }
+                        }
+                        , {
+                            field: 'result_image2', title: '结果图2', width: 100, templet: function (d) {
+                                return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.result_image2 + '" alt="" width="50px" height="50px"></a></div>';
+                            }
+                        }
+                        , {field: 'hidden_data', title: '藏入信息', width: 130}
+                        , {field: 'payment_status_format', title: '付款状态', width: 110}
+                        , {field: 'payment_amout', title: '已付金额', width: 75}
+                        , {field: 'order_time', title: '订单时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.order_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
                         , {field: 'operate', title: '操作', width: 147, toolbar: "#operate"}
                     ]]
                 });

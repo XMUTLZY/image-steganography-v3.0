@@ -1,5 +1,7 @@
 package sch.xmut.jake.imagestegangraphy.repository.user;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +16,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Query(value = "select * from user u where u.mobile like concat('%', :mobile,'%') and u.account_name " +
             "like concat('%', :accountName, '%') and u.company like concat('%', :company, '%')", nativeQuery = true)
     List<UserEntity> findUser(@Param("mobile") String mobile, @Param("company") String company, @Param("accountName") String accountName);
+    Page<UserEntity> findAllByStatus(Pageable pageable, Integer status);
+    UserEntity findAllById(Integer id);
 }

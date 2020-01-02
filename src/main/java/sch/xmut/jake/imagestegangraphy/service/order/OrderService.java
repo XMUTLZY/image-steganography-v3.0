@@ -23,6 +23,7 @@ import sch.xmut.jake.imagestegangraphy.constants.CacheConstant;
 import sch.xmut.jake.imagestegangraphy.constants.OrderConstant;
 import sch.xmut.jake.imagestegangraphy.constants.OssConstant;
 import sch.xmut.jake.imagestegangraphy.domain.order.OrderEntity;
+import sch.xmut.jake.imagestegangraphy.domain.user.UserEntity;
 import sch.xmut.jake.imagestegangraphy.http.request.order.OrderPaymentRequest;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
@@ -33,6 +34,7 @@ import sch.xmut.jake.imagestegangraphy.http.vo.api.ApiOss;
 import sch.xmut.jake.imagestegangraphy.http.vo.order.Order;
 import sch.xmut.jake.imagestegangraphy.http.vo.user.User;
 import sch.xmut.jake.imagestegangraphy.repository.order.OrderRepository;
+import sch.xmut.jake.imagestegangraphy.repository.user.UserRepository;
 import sch.xmut.jake.imagestegangraphy.service.api.ApiService;
 import sch.xmut.jake.imagestegangraphy.service.cache.CacheService;
 import sch.xmut.jake.imagestegangraphy.service.user.UserService;
@@ -63,6 +65,8 @@ public class OrderService {
     private ApiService apiService;
     @Autowired
     private CacheService cacheService;
+    @Autowired
+    private UserRepository userRepository;
 
     public BaseResponse getNoDownload() {
         BaseResponse response = new BaseResponse();
@@ -333,6 +337,25 @@ public class OrderService {
             orderRepository.save(orderEntity);
         }
         return "/userView/index";
+    }
+
+    public LayerResponse orderList(Pageable pageable) {
+        LayerResponse response = new LayerResponse();
+        Page<OrderEntity> orderEntityPage = orderRepository.findAllByOrderStatus(pageable, OrderConstant.ORDER_STATUS_EXIT);
+        List<Order> orderList = new ArrayList<>();
+        for (OrderEntity orderEntity : orderEntityPage) {
+            Order order = new Order();
+            BeanUtils.copyProperties(orderEntity, order);
+            order.setOrderTime(SystemUtils.dateToFormat(orderEntity.getOrderTime()));
+            UserEntity userEntity = userRepository.findAllById(order.getUserId());
+            order.setUserMobile(userEntity.getMobile());
+            order.setUserAccountName(userEntity.getAccountName());
+            orderList.add(order);
+        }
+        List<OrderEntity> orderEntityList = orderRepository.findAllByOrderStatus(OrderConstant.ORDER_STATUS_EXIT);
+        response.setCount(orderEntityList.size());
+        response.setData(orderList);
+        return response;
     }
 
     private void buildPayIndexFormCache(String result) {

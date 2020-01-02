@@ -53,6 +53,7 @@ public class AdminService {
     }
 
     public BaseResponse login(AdminRequest adminRequest) {
+        clearAdminInfoCache();
         Subject subject = SecurityUtils.getSubject();
         BaseResponse response = new BaseResponse();
         Admin admin = getAdmin(adminRequest.getMobile());
@@ -110,5 +111,12 @@ public class AdminService {
         cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
         cacheRequest.setKey(CacheConstant.ADMIN_INFO_KEY);
         return cacheService.stringGet(cacheRequest);
+    }
+
+    public void clearAdminInfoCache() {
+        CacheRequest cacheRequest = new CacheRequest();
+        cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
+        cacheRequest.setKey(CacheConstant.ADMIN_INFO_KEY);
+        cacheService.stringDelete(cacheRequest);
     }
 }

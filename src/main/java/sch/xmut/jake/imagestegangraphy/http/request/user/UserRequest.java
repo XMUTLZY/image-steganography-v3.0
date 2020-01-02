@@ -16,6 +16,12 @@ public class UserRequest {
     private String hiddenData;
     @JsonProperty("orginal_image")
     private String orginalImage;
+    @JsonProperty("real_name")
+    private String realName;
+    private String city;
+    private String email;
+    private String career;
+    private String portrait;
 
     public String getMobile() {
         return mobile;
@@ -71,5 +77,45 @@ public class UserRequest {
 
     public void setOrginalImage(String orginalImage) {
         this.orginalImage = orginalImage;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCareer() {
+        return career;
+    }
+
+    public void setCareer(String career) {
+        this.career = career;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
     }
 }

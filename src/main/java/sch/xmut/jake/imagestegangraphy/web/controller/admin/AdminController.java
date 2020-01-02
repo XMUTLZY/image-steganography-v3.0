@@ -1,20 +1,23 @@
 package sch.xmut.jake.imagestegangraphy.web.controller.admin;
 
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sch.xmut.jake.imagestegangraphy.constants.AdminConstant;
 import sch.xmut.jake.imagestegangraphy.http.request.admin.AdminRequest;
+import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
-import sch.xmut.jake.imagestegangraphy.http.vo.admin.Admin;
+import sch.xmut.jake.imagestegangraphy.http.response.LayerResponse;
 import sch.xmut.jake.imagestegangraphy.service.admin.AdminService;
-import javax.servlet.http.HttpServletRequest;
+import sch.xmut.jake.imagestegangraphy.service.order.OrderService;
+import sch.xmut.jake.imagestegangraphy.service.user.UserService;
 
 /**
  * Created by jake.lin on 2020/1/1
@@ -24,23 +27,59 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminController {
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private OrderService orderService;
 
-    @PostMapping("login")
+    //管理员登录
+    @PostMapping("/login")
     @ResponseBody
     public BaseResponse login(@RequestBody AdminRequest adminRequest) {
         return adminService.login(adminRequest);
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    //用户列表
+    @GetMapping("/user-list")
     @ResponseBody
-    public BaseResponse registerAdmin(@RequestBody Admin admin, HttpServletRequest request) {
-        BaseResponse response = new BaseResponse();
-        String encrypt = new SecureRandomNumberGenerator().nextBytes().toString();//生成盐
-        String encodePassword = new SimpleHash(AdminConstant.ENCRYPTION_TYPE, admin.getPassword(), encrypt, AdminConstant.ENCRYPTION_TIMES).toString();
-        admin.setPassword(encodePassword);
-        admin.setEncrypt(encrypt);
-        adminService.saveAdmin(admin);
-        response.setMessage("注册成功");
-        return response;
+    public LayerResponse userList(@RequestParam("limit") Integer limit, @RequestParam("page") Integer page) {
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.Direction.ASC, "id");
+        return userService.getUserList(pageable);
+    }
+
+    //删除指定用户
+    @GetMapping("user-delete")
+    @ResponseBody
+    public LayerResponse userDelete(@RequestParam String mobile) {
+        return userService.userDelete(mobile);
+    }
+
+    //查询指定用户
+    @GetMapping("/user-get")
+    @ResponseBody
+    public BaseResponse userGet(@RequestParam String mobile) {
+        return userService.userGet(mobile);
+    }
+
+    //修改指定用户信息
+    @PostMapping("/user-update")
+    @ResponseBody
+    public BaseResponse userUpdate(@RequestBody UserRequest userRequest) {
+        return userService.userUpdate(userRequest);
+    }
+
+    //模糊查询用户信息
+    @PostMapping("/user-search")
+    @ResponseBody
+    public LayerResponse userSearch(@RequestBody UserRequest userRequest) {
+        return userService.userSearch(userRequest);
+    }
+
+    //订单列表
+    @GetMapping("/order-list")
+    @ResponseBody
+    public LayerResponse orderList(@RequestParam("limit") Integer limit, @RequestParam("page") Integer page) {
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.Direction.ASC, "id");
+        return orderService.orderList(pageable);
     }
 }
