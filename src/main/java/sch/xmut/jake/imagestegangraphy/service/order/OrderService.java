@@ -350,6 +350,11 @@ public class OrderService {
             UserEntity userEntity = userRepository.findAllById(order.getUserId());
             order.setUserMobile(userEntity.getMobile());
             order.setUserAccountName(userEntity.getAccountName());
+            if (order.getPaymentStatus() == OrderConstant.PAYMENT_STATUS_YES) {
+                order.setPaymentStatusFormat("已付款");
+            } else {
+                order.setPaymentStatusFormat("待支付");
+            }
             orderList.add(order);
         }
         List<OrderEntity> orderEntityList = orderRepository.findAllByOrderStatus(OrderConstant.ORDER_STATUS_EXIT);

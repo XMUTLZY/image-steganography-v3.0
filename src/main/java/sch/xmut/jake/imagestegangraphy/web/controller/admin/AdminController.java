@@ -82,4 +82,33 @@ public class AdminController {
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.Direction.ASC, "id");
         return orderService.orderList(pageable);
     }
+
+    //管理员列表
+    @GetMapping("/admin-list")
+    @ResponseBody
+    public LayerResponse adminList(@RequestParam("limit") Integer limit, @RequestParam("page") Integer page) {
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.Direction.ASC, "id");
+        return adminService.adminList(pageable);
+    }
+
+    //删除指定管理员
+    @PostMapping("/admin-delete")
+    @ResponseBody
+    public BaseResponse adminDelete(@RequestBody AdminRequest adminRequest) {
+        return adminService.adminDelete(adminRequest);
+    }
+
+    //查询管理员
+    @PostMapping("/admin-search")
+    @ResponseBody
+    public LayerResponse adminSearch(@RequestBody AdminRequest adminRequest) {
+        return adminService.adminSearch(adminRequest);
+    }
+
+    //管理员添加
+    @PostMapping("/admin-add")
+    @ResponseBody
+    public BaseResponse adminAdd(@RequestBody AdminRequest adminRequest) {
+        return adminService.adminAdd(adminRequest);
+    }
 }

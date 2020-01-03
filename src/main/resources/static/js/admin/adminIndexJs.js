@@ -41,7 +41,7 @@ var adminIndexJs = {
                     elem: '#user-list-table'
                     , height: 485
                     , url: '/admin/user-list'
-                    , page: true //开启分页
+                    , page: true //开启order-list分页
                     , limits: [5, 10, 20]
                     , limit: 10
                     , cols: [[ //表头
@@ -219,7 +219,7 @@ var adminIndexJs = {
                 $("#system-list").addClass('layui-hide');
                 //第一个实例
                 table.render({
-                    elem: '#order-list'
+                    elem: '#order-list-table'
                     , height: 485
                     , url: '/admin/order-list'
                     , page: true //开启分页
@@ -245,10 +245,9 @@ var adminIndexJs = {
                             }
                         }
                         , {field: 'hidden_data', title: '藏入信息', width: 130}
-                        , {field: 'payment_status_format', title: '付款状态', width: 110}
-                        , {field: 'payment_amout', title: '已付金额', width: 75}
+                        , {field: 'payment_status_format', title: '付款状态', width: 105}
+                        , {field: 'payment_amout', title: '已付金额', width: 105}
                         , {field: 'order_time', title: '订单时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.order_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
-                        , {field: 'operate', title: '操作', width: 147, toolbar: "#operate"}
                     ]]
                 });
             });
@@ -264,30 +263,28 @@ var adminIndexJs = {
                 table.render({
                     elem: '#admin-list-table'
                     , height: 485
-                    , url: '/admin/allAdminList' //数据接口
+                    , url: '/admin/admin-list'
                     , page: true //开启分页
                     , limits: [5, 10, 20]
                     , limit: 10
                     , cols: [[ //表头
                         {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
-                        , {field: 'userName', title: '用户名', width: 120}
+                        , {field: 'user_name', title: '用户名', width: 120}
                         , {field: 'mobile', title: '手机号', width: 120}
-                        , {field: 'realName', title: '姓名', width: 90}
-                        , {field: 'roleName', title: '角色', width: 130}
-                        , {field: 'status', title: '状态', width: 70}
+                        , {field: 'real_name', title: '姓名', width: 90}
+                        , {field: 'role_name', title: '角色', width: 130}
                         , {field: 'email', title: '邮箱', width: 150}
                         , {
                             field: 'portrait', title: '头像', width: 90, templet: function (d) {
                                 return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.portrait + '" alt="" width="50px" height="50px"></a></div>';
                             }
                         }
-                        , {field: 'createTime', title: '创建时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
-                        , {field: 'updateTime', title: '修改时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.updateTime, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
+                        , {field: 'create_time', title: '创建时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.create_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
+                        , {field: 'update_time', title: '修改时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.update_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
                         , {
                             field: 'operate',
                             title: '操作',
-                            width: 147,
-                            fixed: 'right',
+                            width: 80,
                             toolbar: "#admin-list-table-operate",
                         }
                     ]]
@@ -298,7 +295,7 @@ var adminIndexJs = {
                             var dataRequest = {};
                             dataRequest.mobile = obj.data.mobile;
                             $.ajax({
-                                url: '/admin/deleteAdmin',
+                                url: '/admin/admin-delete',
                                 data: JSON.stringify(dataRequest),
                                 contentType: 'application/json',
                                 type: 'post',
@@ -308,61 +305,48 @@ var adminIndexJs = {
                                 }
                             })
                         })
-                    } else {
-                        var data = {};
-                        data.mobile = obj.data.mobile;
-                        $.ajax({
-                            url: '/admin/showAdmin',
-                            data: JSON.stringify(data),
-                            contentType: 'application/json',
-                            type: 'post',
-                            success: function (result) {
-                                var jsonlist = eval('(' + result + ')');//解析json
-                                layer.open({
-                                    type: 1,
-                                    title: '修改管理员信息',
-                                    shift: 7,
-                                    area: 'auto',
-                                    maxWidth: 800,
-                                    maxHeight: 1200,
-                                    shadeClose: true,
-                                    content: "<div class='layui-form'>\n" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "     <label class=\"layui-form-label\">手机</label>\n" +
-                                        "     <div class=\"layui-input-inline\">\n" +
-                                        "        <input type=\"phone\" id=\"show-admin-mobile\" disabled=\"disabled\" required lay-verify=\"required\" value=" + jsonlist.mobile + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                        "     </div>\n" +
-                                        "     <div class=\"layui-form-mid layui-word-aux\" style='color: red;'>无法更改</div>\n" +
-                                        "   </div>" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "    <label class=\"layui-form-label\">用户名</label>\n" +
-                                        "    <div class=\"layui-input-inline\">\n" +
-                                        "      <input type=\"name\" id=\"show-admin-userName\" required lay-verify=\"required\" value=" + jsonlist.userName + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                        "    </div>\n" +
-                                        "  </div>" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "    <label class=\"layui-form-label\">姓名</label>\n" +
-                                        "    <div class=\"layui-input-inline\">\n" +
-                                        "      <input type=\"name\" id=\"show-admin-realName\" required lay-verify=\"required\" value=" + jsonlist.realName + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                        "    </div>\n" +
-                                        "  </div>" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "    <label class=\"layui-form-label\">邮箱</label>\n" +
-                                        "    <div class=\"layui-input-inline\">\n" +
-                                        "      <input type=\"email\" id=\"show-admin-email\" required lay-verify=\"required\" value=" + jsonlist.email + " autocomplete=\"off\" class=\"layui-input\">\n" +
-                                        "    </div>\n" +
-                                        "  </div>" +
-                                        "  <div class=\"layui-form-item\">\n" +
-                                        "    <div class=\"layui-input-inline\">\n" +
-                                        "     <button style='margin-left: 150px;' type='button' class='layui-btn' onclick='adminIndexJs.method.updateAdminBtn();'>提交</button></div>\n" +
-                                        "    </div>\n" +
-                                        "  </div>\n" +
-                                        "</div>\n"
-                                });
-                            }
-                        })
                     }
                 })
+            });
+        },
+        adminSearch: function () {
+            layui.use('table', function () {
+                var table = layui.table;
+                //第一个实例
+                table.render({
+                    elem: '#admin-list-table'
+                    , height: 485
+                    , where: {
+                        id: $("#search-admin-id").val(),
+                        user_name: $("#search-admin-user-name").val(),
+                        mobile: $("#search-admin-phone").val(),
+                        role_id: $('select[name="role-name-select"]').find('option:selected').val()
+                    }
+                    , method: 'post'
+                    , contentType: 'application/json'
+                    , url: '/admin/admin-search'
+                    , cols: [[ //表头
+                        {field: 'id', title: 'ID', width: 70, sort: true, fixed: 'left'}
+                        , {field: 'user_name', title: '用户名', width: 120}
+                        , {field: 'mobile', title: '手机号', width: 120}
+                        , {field: 'real_name', title: '姓名', width: 90}
+                        , {field: 'role_name', title: '角色', width: 130}
+                        , {field: 'email', title: '邮箱', width: 150}
+                        , {
+                            field: 'portrait', title: '头像', width: 90, templet: function (d) {
+                                return '<div onclick="adminIndexJs.method.show_img(this)" ><img src="' + d.portrait + '" alt="" width="50px" height="50px"></a></div>';
+                            }
+                        }
+                        , {field: 'create_time', title: '创建时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.create_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
+                        , {field: 'update_time', title: '修改时间', width: 180, templet:'<div>{{ layui.util.toDateString(d.update_time, "yyyy-MM-dd HH:mm:ss") }}</div>', sort: true}
+                        , {
+                            field: 'operate',
+                            title: '操作',
+                            width: 70,
+                            toolbar: "#admin-list-table-operate",
+                        }
+                    ]]
+                });
             });
         },
         addAdmin: function () {
@@ -384,41 +368,23 @@ var adminIndexJs = {
             var data = {};
             data.mobile = $("#add-admin-mobile").val();
             data.password = $("#add-admin-password").val();
-            data.userName = $("#userName").val();
-            data.role = $("#add-admin-role").val();
+            data.user_name = $("#userName").val();
+            data.role_id = $("#add-admin-role").val();
             $.ajax({
-                url: '/admin/register',
+                url: '/admin/admin-add',
                 type: 'post',
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 success: function (result) {
-                    if (result.msg == "注册成功") {
+                    if (result.status_code == 200) {
                         layer.msg('添加管理员成功');
                         adminIndexJs.method.adminList();
-                        return;
+                    } else {
+                        layer.msg('添加管理员失败');
                     }
-                    layer.msg('添加管理员失败');
                 },
                 error: function () {
                     layer.msg('数据异常');
-                }
-            })
-        },
-        updateAdminBtn: function () {
-            layer.close(layer.index);
-            var data = {};
-            data.mobile = $("#show-admin-mobile").val();
-            data.userName = $("#show-admin-userName").val();
-            data.realName = $("#show-admin-realName").val();
-            data.email = $("#show-admin-email").val();
-            $.ajax({
-                url: '/admin/updateAdmin',
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                type: 'post',
-                success: function (result) {
-                    layer.msg(result.msg);
-                    adminIndexJs.method.adminList();
                 }
             })
         },
