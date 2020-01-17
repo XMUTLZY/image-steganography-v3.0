@@ -35,7 +35,7 @@ var adminIndexJs = {
                 $("#user-list").removeClass('layui-hide');
                 $("#admin-list").addClass('layui-hide');
                 $("#order-list").addClass('layui-hide');
-                $("#system-list").addClass('layui-hide');
+                $("#admin-operate-list").addClass('layui-hide');
                 //第一个实例
                 table.render({
                     elem: '#user-list-table'
@@ -216,7 +216,7 @@ var adminIndexJs = {
                 $("#order-list").removeClass('layui-hide');
                 $("#admin-list").addClass('layui-hide');
                 $("#user-list").addClass('layui-hide');
-                $("#system-list").addClass('layui-hide');
+                $("#admin-operate-list").addClass('layui-hide');
                 //第一个实例
                 table.render({
                     elem: '#order-list-table'
@@ -258,7 +258,7 @@ var adminIndexJs = {
                 $("#admin-list").removeClass('layui-hide');
                 $("#user-list").addClass('layui-hide');
                 $("#order-list").addClass('layui-hide');
-                $("#system-list").addClass('layui-hide');
+                $("#admin-operate-list").addClass('layui-hide');
                 //第一个实例
                 table.render({
                     elem: '#admin-list-table'
@@ -388,20 +388,20 @@ var adminIndexJs = {
                 }
             })
         },
-        systemDynamicsList: function () {
-            $("#system-list").removeClass('layui-hide');
+        adminOperateRecords: function () {
+            $("#admin-operate-list").removeClass('layui-hide');
             $("#admin-list").addClass('layui-hide');
             $("#user-list").addClass('layui-hide');
             $("#order-list").addClass('layui-hide');
             layui.use('laytpl', function () {
                 var laytpl = layui.laytpl;
-                var getTpl = document.getElementById("system-dynamic-list").innerHTML;
+                var getTpl = document.getElementById("admin-operate-record-list").innerHTML;
                 $.ajax({
-                    url: '/admin/systemDynamic',
+                    url: '/admin/operate-records',
                     type: 'post',
                     success: function (result) {
                         laytpl(getTpl).render(result, function (html) {
-                            document.getElementById("system-list").innerHTML = html;
+                            document.getElementById("admin-operate-list").innerHTML = html;
                         });
                     },
                     error: function () {
@@ -410,13 +410,13 @@ var adminIndexJs = {
                 });
             })
         },
-        systemDynamicsSearchBtn: function () {
+        adminOperateRecordsSearchBtn: function () {
             layui.use('laytpl', function () {
                 var laytpl = layui.laytpl;
-                var getTpl = document.getElementById("system-dynamic-list").innerHTML;
+                var getTpl = document.getElementById("admin-operate-record-list").innerHTML;
                 layer.load();
                 $.ajax({
-                    url: '/admin/systemDynamic/search',
+                    url: '/admin/operate-records',
                     data: {
                         key: $("#key-search").val()
                     },
@@ -424,7 +424,7 @@ var adminIndexJs = {
                     success: function (result) {
                         layer.closeAll('loading');
                         laytpl(getTpl).render(result, function (html) {
-                            document.getElementById("system-list").innerHTML = html;
+                            document.getElementById("admin-operate-list").innerHTML = html;
                         });
                     },
                     error: function () {

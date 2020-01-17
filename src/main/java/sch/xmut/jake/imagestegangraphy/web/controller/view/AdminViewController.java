@@ -18,6 +18,7 @@ public class AdminViewController {
     private AdminService adminService;
     @RequestMapping("/login")
     public String adminLogin() {
+        adminService.clearAdminInfoCache();
         return "/admin/adminLogin";
     }
 

@@ -15,9 +15,12 @@ import sch.xmut.jake.imagestegangraphy.http.request.admin.AdminRequest;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.LayerResponse;
+import sch.xmut.jake.imagestegangraphy.http.vo.admin.AdminOperateLog;
+import sch.xmut.jake.imagestegangraphy.service.admin.AdminOperateService;
 import sch.xmut.jake.imagestegangraphy.service.admin.AdminService;
 import sch.xmut.jake.imagestegangraphy.service.order.OrderService;
 import sch.xmut.jake.imagestegangraphy.service.user.UserService;
+import java.util.List;
 
 /**
  * Created by jake.lin on 2020/1/1
@@ -31,6 +34,8 @@ public class AdminController {
     private UserService userService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private AdminOperateService adminOperateService;
 
     //管理员登录
     @PostMapping("/login")
@@ -110,5 +115,11 @@ public class AdminController {
     @ResponseBody
     public BaseResponse adminAdd(@RequestBody AdminRequest adminRequest) {
         return adminService.adminAdd(adminRequest);
+    }
+
+    @PostMapping("/operate-records")
+    @ResponseBody
+    public List<AdminOperateLog> operateRecords(@RequestParam(required = false) String key) {
+        return adminOperateService.findByKey(key);
     }
 }

@@ -58,7 +58,7 @@
                         <dd><a href="javascript:;">个人中心</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a onclick="adminIndexJs.method.systemDynamicsList();">系统动态</a></li>
+                <li class="layui-nav-item"><a onclick="adminIndexJs.method.adminOperateRecords();">操作记录</a></li>
                 <li class="layui-nav-item"><a href="">营业额</a></li>
             </ul>
         </div>
@@ -134,7 +134,7 @@
                 </div>
             </script>
         </div>
-        <div class="layui-hide layadmin-tabsbody-item" style="padding: 15px;" id="system-list">
+        <div class="layui-hide layadmin-tabsbody-item" style="padding: 15px;" id="admin-operate-list">
 
         </div>
     </div>
@@ -251,8 +251,8 @@
 <script src="/layui/lay/modules/laytpl.js"></script>
 <script src="/layui/layui.all.js"></script>
 <script type="text/javascript" src="/js/admin/adminIndexJs.js"></script>
-<!-- 系统动态列表 -->
-<script id="system-dynamic-list" type="text/html">
+<!-- 管理员操作记录列表 -->
+<script id="admin-operate-record-list" type="text/html">
     <div class="layui-fluid">
         <div class="layadmin-caller">
             <div class="layui-form caller-seach" action="">
@@ -260,15 +260,15 @@
                 <input type="text" required="" lay-verify="required" placeholder="输入关键字搜索" id="key-search"
                        autocomplete="off" class="layui-input caller-pl32">
                 <button class="layui-btn" data-type="reload" id="input-key-search"
-                        onclick="adminIndexJs.method.systemDynamicsSearchBtn();">搜索
+                        onclick="adminIndexJs.method.adminOperateRecordsSearchBtn();">搜索
                 </button>
             </div>
             <div class="caller-contar">
                 {{# layui.each(d, function(index, item){ }}
                 <div class="caller-item">
                     <div class="caller-main caller-fl">
-                        <p><strong>项目动态</strong> <em>{{item.operateTime}}</em></p>
-                        <p class="caller-adds">{{item.operate}}</p>
+                        <p><strong>项目动态</strong> <em>{{item.operate_time}}</em></p>
+                        <p class="caller-adds">{{item.operate_str}}</p>
                         <p><i class="layui-icon layui-icon-location"></i><em>ip:{{item.ip}}</em></p>
                     </div>
                     <button class="layui-btn layui-btn-sm layui-btn layui-btn-primary caller-fr">
