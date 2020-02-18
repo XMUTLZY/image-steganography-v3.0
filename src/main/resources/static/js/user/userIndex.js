@@ -6,6 +6,7 @@ var userIndexJs = {
         userIndexJs.event.isToDownloadImage();
         userIndexJs.event.orginalImageUpload();
         userIndexJs.event.initBanner();
+        userIndexJs.event.imageUpload();
     },
     event: {
         isToDownloadImage: function() {
@@ -77,7 +78,29 @@ var userIndexJs = {
                     //,anim: 'updown' //切换动画方式
                 });
             });
-        }
+        },
+        imageUpload: function() {
+            layui.use('upload', function () {
+                var $ = layui.jquery
+                    , upload = layui.upload;
+                //普通图片上传
+                upload.render({
+                    elem: '#edit-portrait-btn'
+                    , url: '/api/image-upload-oss'
+                    , accept: 'images'
+                    , before: function () {
+                        layer.load();
+                    }
+                    , done: function (res) {
+                        layer.closeAll('loading');
+                        $("#edit-portrait-img").attr('src', res.image_url);
+                    }
+                    , error: function (index, upload) {
+                        layer.msg("错误");
+                    }
+                });
+            });
+        },
     },
     method: {
         generateImage: function () {
@@ -137,6 +160,73 @@ var userIndexJs = {
                 a.click()
             }
             x.send();
+        },
+        userInfoDialog: function () {
+            $.ajax({
+                url: '/admin/user-get',
+                data: {
+                    mobile: $("#user-operate-list").data("mobile")
+                },
+                type: 'get',
+                success: function (result) {
+                    $("#edit-mobile").val(result.vo.mobile);
+                    $("#edit-account-name").val(result.vo.account_name);
+                    $("#edit-career").val(result.vo.career);
+                    $("#edit-city").val(result.vo.city);
+                    $("#edit-company").val(result.vo.company);
+                    $("#edit-email").val(result.vo.email);
+                    $("#edit-real-name").val(result.vo.real_name);
+                    $("#edit-portrait-img").attr('src', result.vo.portrait);
+                    layui.use(['layer', 'form'], function (layer, form) {
+                        layer.open({
+                            type: 1
+                            , skin: 'examine-refuse-popup'
+                            , offset: 'auto'
+                            , title: '个人资料'
+                            , id: 'layer-id'
+                            , area: ['600px', '600px']
+                            , content: $("#dialog-edit-user-info")
+                            , btn: ['确定', '取消']
+                            , shade: 0.5 //不显示遮罩
+                            , end: function () {
+                                $("#dialog-edit-user-info").css("display", "none");
+                            }
+                            , yes: function () {
+                                userIndexJs.method.updateUserBtn();
+                            },
+                            btn2: function () {
+
+                            }
+                        });
+                    });
+                }
+            })
+        },
+        updateUserBtn: function () {
+            layer.closeAll();
+            var data = {};
+            data.mobile = $("#edit-mobile").val();
+            data.account_name = $("#edit-account-name").val();
+            data.real_name = $("#edit-real-name").val();
+            data.city = $("#edit-city").val();
+            data.email = $("#edit-email").val();
+            data.company = $("#edit-company").val();
+            data.career = $("#edit-career").val();
+            data.portrait = $("#edit-portrait-img").attr("src");
+            $.ajax({
+                url: '/admin/user-update',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                type: 'post',
+                success: function (result) {
+                    if (result.status_code == 200) {
+                        layer.msg("修改成功");
+                        adminIndexJs.event.userList();
+                    } else {
+                        layer.msg(result.message);
+                    }
+                }
+            })
         }
     }
 }

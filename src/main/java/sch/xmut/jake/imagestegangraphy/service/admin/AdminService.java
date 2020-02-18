@@ -67,6 +67,7 @@ public class AdminService {
         Admin admin = getAdmin(adminRequest.getMobile());
         if (admin == null) {
             SystemUtils.buildErrorResponse(response, "账号不存在");
+            return response;
         }
         String encrypt = admin.getEncrypt();
         String encodePassword = new SimpleHash(AdminConstant.ENCRYPTION_TYPE, adminRequest.getPassword(), encrypt, AdminConstant.ENCRYPTION_TIMES).toString();

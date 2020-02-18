@@ -29,8 +29,8 @@
             <span class="" id="personal-select"></span>
             <li class="layui-nav-item">
                 <a th:text="${user.accountName}"></a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
+                <dl id="user-operate-list" class="layui-nav-child" th:attr="data-mobile=${user.mobile}">
+                    <dd><a onclick="userIndexJs.method.userInfoDialog();">基本资料</a></dd>
                     <dd><a href="">安全设置</a></dd>
                     <dd><a href="/orderView/personalOrders">我的订单<span class="" id="my-order"></span></a></dd>
                     <dd><a href="/userView/login">退出登录</a></dd>
@@ -116,6 +116,67 @@
     <!-- 隐藏原始图片地址 -->
     <input type="hidden" name="orginalImage" id="orginalImage">
 
+    <div id="dialog-edit-user-info" style="display: none;">
+        <div class="pgc-questionManagement">
+            <div class="layui-form filter-wrap">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机号:</label>
+                    <div class="layui-input-inline" style="width: 320px">
+                        <input id="edit-mobile" disabled="disabled" class="layui-input" value=""/>
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" style='color: red;'>无法更改</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名:</label>
+                    <div class="layui-input-inline" style="width: 320px">
+                        <input id="edit-account-name" type="text" class="layui-input" value=""/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">姓名:</label>
+                    <div class="layui-input-inline" style="width: 320px">
+                        <input id="edit-real-name" type="text" class="layui-input" value=""/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">城市:</label>
+                    <div class="layui-input-inline" style="width: 320px">
+                        <input id="edit-city" type="text" class="layui-input" value=""/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮箱:</label>
+                    <div class="layui-input-inline" style="width: 320px">
+                        <input id="edit-email" type="text" class="layui-input" value=""/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">单位:</label>
+                    <div class="layui-input-inline" style="width: 320px">
+                        <input id="edit-company" type="text" class="layui-input" value=""/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">职业:</label>
+                    <div class="layui-input-inline" style="width: 320px">
+                        <input id="edit-career" type="text" class="layui-input" value=""/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">头像:</label>
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn" id="edit-portrait-btn">上传图片</button>
+                        <div class="layui-input-inline" style="width: 320px">
+                            <div class="layui-upload-list">
+                                <img class="layui-upload-img" id="edit-portrait-img"
+                                     style="width: 100px;height: 100px; float: left;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="/layui/layui.all.js"></script>
 <script type="text/javascript" src="/js/user/userIndex.js"></script>
