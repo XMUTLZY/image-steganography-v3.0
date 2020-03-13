@@ -22,6 +22,10 @@ public class UserRequest {
     private String email;
     private String career;
     private String portrait;
+    @JsonProperty("old_password")
+    private String oldPassword;
+    @JsonProperty("new_password")
+    private String newPassword;
 
     public String getMobile() {
         return mobile;
@@ -117,5 +121,21 @@ public class UserRequest {
 
     public void setPortrait(String portrait) {
         this.portrait = portrait;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 }

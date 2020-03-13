@@ -166,6 +166,22 @@ public class UserService {
         return response;
     }
 
+    public BaseResponse updatePassword(UserRequest userRequest) {
+        BaseResponse response = new BaseResponse();
+        User user = getUserInfoFromCache();
+        UserEntity userEntity = userRepository.findByMobile(user.getMobile());
+        String encrypt = userEntity.getEncrypt();
+        String encodePassword = new SimpleHash(UserConstant.ENCRYPTION_TYPE, userRequest.getOldPassword(), encrypt, UserConstant.ENCRYPTION_TIMES).toString();
+        if (encodePassword.equals(userEntity.getPassword())) {
+            String newPassword = new SimpleHash(UserConstant.ENCRYPTION_TYPE, userRequest.getNewPassword(), encrypt, UserConstant.ENCRYPTION_TIMES).toString();
+            userEntity.setPassword(newPassword);
+            userRepository.save(userEntity);
+        } else {
+            SystemUtils.buildErrorResponse(response, "原密码输入错误");
+        }
+        return response;
+    }
+
     private List<User> convertToUserList(List<UserEntity> userEntityList) {
         if (CollectionUtils.isEmpty(userEntityList))
             return null;

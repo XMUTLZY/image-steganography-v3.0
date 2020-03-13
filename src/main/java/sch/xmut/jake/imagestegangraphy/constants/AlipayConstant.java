@@ -32,6 +32,4 @@ public class AlipayConstant {
     public static String CHARSET = "utf-8";
     // 支付宝网关
     public static String GATEWAR_URL = "https://openapi.alipaydev.com/gateway.do";
-    // 支付宝网关
-    public static String LOG_PATH = "https://openapi.alipaydev.com/gateway.do";
 }

@@ -88,4 +88,11 @@ public class OrderController {
     public void alipayReturnNotice(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect(orderService.payResult(request));
     }
+
+    //支付宝异步回调
+    @RequestMapping(value = "/alipayNotifyNotice", method = RequestMethod.POST)
+    @ResponseBody
+    public String alipayNotifyNotice(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        return orderService.payResult(request);
+    }
 }

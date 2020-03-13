@@ -41,4 +41,11 @@ public class UserController {
         return userService.login(userRequest);
     }
 
+    //修改密码
+    @PostMapping("/update-password")
+    @ResponseBody
+    public BaseResponse updatePassword(@RequestBody UserRequest userRequest) {
+        return userService.updatePassword(userRequest);
+    }
+
 }

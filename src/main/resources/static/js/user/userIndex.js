@@ -227,6 +227,59 @@ var userIndexJs = {
                     }
                 }
             })
+        },
+        updatePasswordDialog: function () {
+            layui.use(['layer', 'form'], function (layer, form) {
+                layer.open({
+                    type: 1
+                    , skin: 'examine-refuse-popup'
+                    , offset: 'auto'
+                    , title: '修改密码'
+                    , id: 'layer-id'
+                    , area: ['550px', '300px']
+                    , content: $("#dialog-update-password")
+                    , btn: ['确定', '取消']
+                    , shade: 0.5 //不显示遮罩
+                    , end: function () {
+                        $("#dialog-update-password").css("display", "none");
+                    }
+                    , yes: function () {
+                        var data = {};
+                        data.old_password = $("#old-password").val();
+                        if ($("#new-password").val() != $("#again-new-password").val()) {
+                            $("#update-password-tip").removeClass("layui-hide");
+                        } else {
+                            data.new_password = $("#new-password").val();
+                            userIndexJs.method.updateUserPassword(data);
+                        }
+                    },
+                    btn2: function () {
+
+                    }
+                });
+            });
+        },
+        updateUserPassword: function (data) {
+            $.ajax({
+                url: "/user/update-password",
+                type: "post",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.status_code == 200) {
+                        layer.closeAll();
+                        setTimeout(function () {
+                            layer.msg("修改成功");
+                        }, 1000);
+                    } else {
+                        layer.msg(result.message)
+                    }
+
+                },
+                error: function () {
+                    layer.msg("数据请求异常");
+                }
+            })
         }
     }
 }

@@ -2,11 +2,12 @@ package sch.xmut.jake.imagestegangraphy.http.vo.order;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import sch.xmut.jake.imagestegangraphy.constants.OrderConstant;
+import java.io.Serializable;
 
 /**
  * Created by jake.lin on 2019/12/25
  */
-public class Order {
+public class Order implements Serializable {
     private Integer id;
     @JsonProperty("order_number")
     private String orderNumber;

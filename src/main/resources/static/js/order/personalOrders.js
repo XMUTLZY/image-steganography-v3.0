@@ -154,7 +154,7 @@ var personalOrders = {
                 content: '<div style="text-align:center"><img src="' + $(t).attr('src') + '" /></div>'
             });
         },
-        downloadForCros: function (imageUrl, imageName) {//跨域请求OSS图片 并下载
+        downloadForCros: function (imageUrl, imageName) {//跨域请求图片 并下载
             var x = new XMLHttpRequest();
             x.open("GET", imageUrl, true);
             x.responseType = 'blob';

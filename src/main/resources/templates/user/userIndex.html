@@ -7,6 +7,32 @@
     <link rel="shortcut icon" href="/layui/images/face/65.gif"/>
     <script src="/js/jquery/2.0.0/jquery.min.js"></script>
     <script src="/js/user/download.js"></script>
+    <style>
+        body .layui-layout-admin .footer-demo {
+            height: 50px;
+            line-height: 50px;
+            padding: 5px 0;
+        }
+
+        .layui-layout-admin .layui-footer {
+            position: fixed;
+            left: 200px;
+            right: 0;
+            bottom: 0;
+            height: 44px;
+            line-height: 44px;
+            padding: 0 15px;
+            background-color: #eee;
+        }
+
+        .footer {
+            padding: 30px 0;
+            line-height: 30px;
+            text-align: center;
+            color: #666;
+            font-weight: 300;
+        }
+    </style>
 </head>
 <body style="text-align: center;">
 <div class="layui-layout layui-layout-admin">
@@ -16,7 +42,7 @@
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a onclick="">图像隐写</a></li>
             <li class="layui-nav-item"><a onclick="">信息提取</a></li>
-            <li class="layui-nav-item"><a onclick="">算法描述</a></li>
+            <li class="layui-nav-item"><a href="https://www.jianshu.com/p/ca4fcbe7490d" target="_blank">算法描述</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">系统设置</a>
                 <dl class="layui-nav-child">
@@ -31,7 +57,7 @@
                 <a th:text="${user.accountName}"></a>
                 <dl id="user-operate-list" class="layui-nav-child" th:attr="data-mobile=${user.mobile}">
                     <dd><a onclick="userIndexJs.method.userInfoDialog();">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
+                    <dd><a onclick="userIndexJs.method.updatePasswordDialog();">安全设置</a></dd>
                     <dd><a href="/orderView/personalOrders">我的订单<span class="" id="my-order"></span></a></dd>
                     <dd><a href="/userView/login">退出登录</a></dd>
                 </dl>
@@ -111,7 +137,24 @@
         图像隐写算法描述
     </div>
     <!-- 底部 -->
-    <div class="layui-footer">
+    <div class="layui-footer footer footer-demo">
+        <div class="layui-main">
+            <p>© 2020 <a href="/">ruanpeizhu.top</a> Jake license</p>
+            <p>
+                <a href="javascript:;" target="_blank">案例</a>
+                <a href="javascript:;" target="_blank">支持</a>
+                <a href="https://github.com/XMUTLZY/" target="_blank" rel="nofollow">GitHub</a>
+                <a href="https://www.jianshu.com/u/93156684d789" target="_blank" rel="nofollow">简书</a>
+                <a href="#javascript:;" target="_blank" class="layui-hide-xs">公众号</a>
+                <a href="javascript:;" target="_blank" rel="nofollow">赣ICP备11006672号-2</a>
+            </p>
+            <div class="site-union">
+                <p class="site-union-desc">
+                <span>
+                  厦门理工学院
+                </span>
+            </div>
+        </div>
     </div>
     <!-- 隐藏原始图片地址 -->
     <input type="hidden" name="orginalImage" id="orginalImage">
@@ -173,6 +216,32 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialog-update-password" style="display: none;">
+        <div class="pgc-questionManagement">
+            <div class="layui-form filter-wrap">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">旧密码:</label>
+                    <div class="layui-input-inline" style="width: 320px">
+                        <input type="password" id="old-password" class="layui-input" value=""/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">新密码:</label>
+                    <div class="layui-input-inline" style="width: 320px">
+                        <input id="new-password" type="password" class="layui-input" value=""/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">再输一次:</label>
+                    <div class="layui-input-inline" style="width: 320px">
+                        <input type="password" id="again-new-password" class="layui-input" value=""/>
+                    </div>
+                    <div class="layui-form-mid layui-hide layui-word" id="update-password-tip" style='color: red;'>密码不一致</div>
                 </div>
             </div>
         </div>
