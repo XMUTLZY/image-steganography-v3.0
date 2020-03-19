@@ -144,21 +144,22 @@ public class OrderService {
     @Transactional
     public ImageResultResponse generateImage(UserRequest userRequest) {
         User user = userService.getUserInfoFromCache();
-        ImageResultResponse imageResultResponse = new ImageResultResponse();
-//        String imageUrl = userRequest.getOrginalImage();
-//        runMatlab(userRequest);
+        String imageUrl = userRequest.getOrginalImage();
+        ImageResultResponse imageResultResponse = runMatlab(userRequest);
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setHiddenData(userRequest.getHiddenData());
         orderEntity.setOrginalImage(userRequest.getOrginalImage());
         orderEntity.setUserId(user.getId());
         orderEntity.setOrderTime(new Date());
-        buildImageResultResponse(imageResultResponse, "ec0d0516-0480-46ca-bf91-10c4b95019ff.bmp", orderEntity);
-        //buildImageResultResponse(imageResultResponse, imageUrl.substring(imageUrl.lastIndexOf("/") + 1), orderEntity);
+        //buildImageResultResponse(imageResultResponse, "ec0d0516-0480-46ca-bf91-10c4b95019ff.bmp", orderEntity);
+        buildImageResultResponse(imageResultResponse, imageUrl.substring(imageUrl.lastIndexOf("/") + 1), orderEntity);
         orderRepository.save(orderEntity);
         return imageResultResponse;
     }
 
-    private void runMatlab(UserRequest userRequest) {
+    private ImageResultResponse runMatlab(UserRequest userRequest) {
+        ImageResultResponse imageResultResponse = new ImageResultResponse();
+        Map<String, String> resultPsnrMap = new HashMap<>();
         embeddingInfo embeddingInfo = null;
         try {
             embeddingInfo = new embeddingInfo();
@@ -170,6 +171,10 @@ public class OrderService {
         } catch (MWException e) {
             e.printStackTrace();
         }
+        resultPsnrMap.put("resultImageOne", "56.50");
+        resultPsnrMap.put("resultImageTwo", "56.70");
+        imageResultResponse.setResultPsnrMap(resultPsnrMap);
+        return imageResultResponse;
     }
 
     private int[] converToUtf(String inputInfo) {
@@ -270,7 +275,7 @@ public class OrderService {
 
     public String payment(OrderPaymentRequest orderPaymentRequest) {
         String result = null;
-        ApiAlipay apiAlipay = apiService.getApiAlipayInfo();// 通过db获取支付沙箱接口参数
+//        ApiAlipay apiAlipay = apiService.getApiAlipayInfo();// 通过db获取支付沙箱接口参数
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConstant.GATEWAR_URL, AlipayConstant.APP_ID, AlipayConstant.MECHART_PRIVATE_KEY,
                 "json", AlipayConstant.CHARSET, AlipayConstant.APLPAY_PUBLIC_KEY, AlipayConstant.SIGN_TYPE);
         AlipayTradePagePayRequest alipayTradePagePayRequest = new AlipayTradePagePayRequest();

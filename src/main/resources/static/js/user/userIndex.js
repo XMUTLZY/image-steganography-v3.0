@@ -126,6 +126,8 @@ var userIndexJs = {
                     layer.msg('信息藏入成功！')
                     $("#resultImage1").attr("src", result.result_image_map["resultImageOne"]);
                     $("#resultImage2").attr("src", result.result_image_map["resultImageTwo"]);
+                    $("#psnr1").html(result.result_psnr_map["resultImageOne"]);
+                    $("#psnr2").html(result.result_psnr_map["resultImageTwo"]);
                 },
                 error: function () {
                     layer.msg('数据异常');

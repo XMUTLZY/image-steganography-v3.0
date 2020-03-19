@@ -11,11 +11,22 @@ public class ImageResultResponse extends BaseResponse {
     @JsonProperty("result_image_map")
     private Map<String, String> resultImageMap;
 
+    @JsonProperty("result_psnr_map")
+    private Map<String, String> resultPsnrMap;
+
     public Map<String, String> getResultImageMap() {
         return resultImageMap;
     }
 
     public void setResultImageMap(Map<String, String> resultImageMap) {
         this.resultImageMap = resultImageMap;
+    }
+
+    public Map<String, String> getResultPsnrMap() {
+        return resultPsnrMap;
+    }
+
+    public void setResultPsnrMap(Map<String, String> resultPsnrMap) {
+        this.resultPsnrMap = resultPsnrMap;
     }
 }

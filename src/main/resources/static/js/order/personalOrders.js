@@ -144,7 +144,7 @@ var personalOrders = {
             //页面层
             layer.open({
                 type: 1,
-                title: '头像',
+                title: '图片',
                 skin: 'layui-layer-rim', //加上边框
                 area: ['80%', '80%'], //宽高
                 shadeClose: true, //开启遮罩关闭
