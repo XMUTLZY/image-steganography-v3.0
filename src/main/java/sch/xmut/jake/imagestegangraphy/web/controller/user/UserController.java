@@ -2,9 +2,11 @@ package sch.xmut.jake.imagestegangraphy.web.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
@@ -46,6 +48,13 @@ public class UserController {
     @ResponseBody
     public BaseResponse updatePassword(@RequestBody UserRequest userRequest) {
         return userService.updatePassword(userRequest);
+    }
+
+    //查询指定用户
+    @GetMapping("/user-get")
+    @ResponseBody
+    public BaseResponse userGet(@RequestParam String mobile) {
+        return userService.userGet(mobile);
     }
 
 }

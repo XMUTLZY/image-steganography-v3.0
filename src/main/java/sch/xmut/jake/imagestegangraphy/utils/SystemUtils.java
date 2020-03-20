@@ -1,5 +1,6 @@
 package sch.xmut.jake.imagestegangraphy.utils;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.codec.Hex;
 import org.apache.shiro.crypto.AesCipherService;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
@@ -26,37 +27,21 @@ public class SystemUtils {
      * 获取ip地址
      */
     public static String getIpAddr(HttpServletRequest request) {
-        String ipAddress = request.getHeader("x-forwarded-for");
-        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("Proxy-Client-IP");
-        }
-        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getRemoteAddr();
-            String localIp = "127.0.0.1";
-            String localIpv6 = "0:0:0:0:0:0:0:1";
-            if (ipAddress.equals(localIp) || ipAddress.equals(localIpv6)) {
-                // 根据网卡取本机配置的IP
-                InetAddress inet;
-                try {
-                    inet = InetAddress.getLocalHost();
-                    ipAddress = inet.getHostAddress();
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                }
+        String ip = request.getHeader("X-Forwarded-For");
+        if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
+            //多次反向代理后会有多个ip值，第一个ip才是真实ip
+            int index = ip.indexOf(",");
+            if(index != -1){
+                return ip.substring(0,index);
+            }else{
+                return ip;
             }
         }
-        // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
-        String ipSeparate = ",";
-        int ipLength = 15;
-        if (ipAddress != null && ipAddress.length() > ipLength) {
-            if (ipAddress.indexOf(ipSeparate) > 0) {
-                ipAddress = ipAddress.substring(0, ipAddress.indexOf(ipSeparate));
-            }
+        ip = request.getHeader("X-Real-IP");
+        if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
+            return ip;
         }
-        return ipAddress;
+        return request.getRemoteAddr();
     }
 
     /**

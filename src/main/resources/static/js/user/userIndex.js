@@ -165,7 +165,7 @@ var userIndexJs = {
         },
         userInfoDialog: function () {
             $.ajax({
-                url: '/admin/user-get',
+                url: '/user/user-get',
                 data: {
                     mobile: $("#user-operate-list").data("mobile")
                 },

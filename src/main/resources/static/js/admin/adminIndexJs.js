@@ -447,6 +447,57 @@ var adminIndexJs = {
                 },
                 content: '<div style="text-align:center"><img src="' + $(t).attr('src') + '" /></div>'
             });
+        },
+        showLocationByMap: function (dom) {
+            var id = $(dom).data("id");
+            $.ajax({
+                url: '/common/get-location',
+                type: 'get',
+                data: {
+                    ip: $("#"+id).html(),
+                },
+                success: function (result) {
+                    result = eval("(" + result.message + ")");
+                    adminIndexJs.method.showMap(result.content.point.x, result.content.point.y)
+                },
+                error: function () {
+                    layer.msg("获取定位失败")
+                }
+            })
+
+        },
+        showMap: function (x, y) {
+            // 百度地图API功能
+            var map = new BMap.Map("allmap");    // 创建Map实例
+            map.centerAndZoom(new BMap.Point(x, y), 11);  // 初始化地图,设置中心点坐标和地图级别
+            //添加地图类型控件
+            map.addControl(new BMap.MapTypeControl({
+                mapTypes:[
+                    BMAP_NORMAL_MAP,
+                    BMAP_HYBRID_MAP
+                ]}));
+            map.setCurrentCity("泉州");          // 设置地图显示的城市 此项是必须设置的
+            map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+            var new_point = new BMap.Point(x, y);
+            var marker = new BMap.Marker(new_point);  // 创建标注
+            map.addOverlay(marker);              // 将标注添加到地图中
+            map.panTo(new_point);
+            layui.use(['layer', 'form'], function (layer, form) {
+                layer.open({
+                    type: 1
+                    , skin: 'examine-refuse-popup'
+                    , offset: 'auto'
+                    , title: '地图'
+                    , id: 'layer-id'
+                    , area: ['750px', '550px']
+                    , content: $("#map-popup")
+                    , btn: ['确定', '取消']
+                    , shade: 0.5 //不显示遮罩
+                    , end: function () {
+                        $("#map-popup").css("display", "none");
+                    }
+                });
+            });
         }
     }
 }
