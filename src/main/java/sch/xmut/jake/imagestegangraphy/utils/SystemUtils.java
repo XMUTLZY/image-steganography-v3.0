@@ -5,8 +5,6 @@ import org.apache.shiro.codec.Hex;
 import org.apache.shiro.crypto.AesCipherService;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
