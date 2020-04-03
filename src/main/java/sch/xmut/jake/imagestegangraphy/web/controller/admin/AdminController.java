@@ -15,6 +15,7 @@ import sch.xmut.jake.imagestegangraphy.http.request.admin.AdminRequest;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.LayerResponse;
+import sch.xmut.jake.imagestegangraphy.http.response.admin.ControlPanelDateResponse;
 import sch.xmut.jake.imagestegangraphy.http.vo.admin.AdminOperateLog;
 import sch.xmut.jake.imagestegangraphy.service.admin.AdminOperateService;
 import sch.xmut.jake.imagestegangraphy.service.admin.AdminService;
@@ -115,6 +116,13 @@ public class AdminController {
     @ResponseBody
     public BaseResponse adminAdd(@RequestBody AdminRequest adminRequest) {
         return adminService.adminAdd(adminRequest);
+    }
+
+    //控制台数据
+    @PostMapping("/control-panel")
+    @ResponseBody
+    public ControlPanelDateResponse controlPanel() {
+        return adminService.controlPanelDate();
     }
 
     @PostMapping("/operate-records")

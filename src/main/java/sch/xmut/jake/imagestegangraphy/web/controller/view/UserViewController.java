@@ -25,6 +25,7 @@ public class UserViewController {
     @RequestMapping("/index")
     public String userIndex(Model model) {
         User user = userService.getUserInfoFromCache();
+        userService.recordVisitNumberByDay();    //记录访问量
         model.addAttribute("user", user);
         return "/user/userIndex";
     }

@@ -7,6 +7,7 @@ import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -18,6 +19,26 @@ public class SystemUtils {
      */
     public static String dateToFormat(Date date) {
         DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dFormat.format(date);
+    }
+
+    /**
+     * 获取当前年月日
+     */
+    public static String dateToRedis(Date date) {
+        DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dFormat.format(date);
+    }
+
+    /**
+     * 获取前一天日期
+     */
+    public static String getLastDate(Date date) {
+        DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        date = calendar.getTime();
         return dFormat.format(date);
     }
 

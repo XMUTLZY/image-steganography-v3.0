@@ -36,6 +36,7 @@ var adminIndexJs = {
                 $("#admin-list").addClass('layui-hide');
                 $("#order-list").addClass('layui-hide');
                 $("#admin-operate-list").addClass('layui-hide');
+                $("#control-panel").addClass('layui-hide');
                 //第一个实例
                 table.render({
                     elem: '#user-list-table'
@@ -217,6 +218,7 @@ var adminIndexJs = {
                 $("#admin-list").addClass('layui-hide');
                 $("#user-list").addClass('layui-hide');
                 $("#admin-operate-list").addClass('layui-hide');
+                $("#control-panel").addClass('layui-hide');
                 //第一个实例
                 table.render({
                     elem: '#order-list-table'
@@ -259,6 +261,7 @@ var adminIndexJs = {
                 $("#user-list").addClass('layui-hide');
                 $("#order-list").addClass('layui-hide');
                 $("#admin-operate-list").addClass('layui-hide');
+                $("#control-panel").addClass('layui-hide');
                 //第一个实例
                 table.render({
                     elem: '#admin-list-table'
@@ -393,6 +396,7 @@ var adminIndexJs = {
             $("#admin-list").addClass('layui-hide');
             $("#user-list").addClass('layui-hide');
             $("#order-list").addClass('layui-hide');
+            $("#control-panel").addClass('layui-hide');
             layui.use('laytpl', function () {
                 var laytpl = layui.laytpl;
                 var getTpl = document.getElementById("admin-operate-record-list").innerHTML;
@@ -498,6 +502,13 @@ var adminIndexJs = {
                     }
                 });
             });
+        },
+        controlPanel: function () {
+            $("#control-panel").removeClass('layui-hide');
+            $("#admin-list").addClass('layui-hide');
+            $("#user-list").addClass('layui-hide');
+            $("#order-list").addClass('layui-hide');
+            $("#admin-operate-list").addClass('layui-hide');
         }
     }
 }

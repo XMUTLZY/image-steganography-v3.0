@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import sch.xmut.jake.cache.apicache.http.request.CacheRequest;
 import sch.xmut.jake.cache.apicache.http.response.CacheResponse;
 import sch.xmut.jake.imagestegangraphy.constants.CacheConstant;
@@ -207,6 +208,35 @@ public class UserService {
         cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
         cacheRequest.setKey(CacheConstant.USER_INFO_KEY);
         cacheService.stringDelete(cacheRequest);
+    }
+
+    public void recordVisitNumberByDay() {
+        CacheRequest cacheRequest = new CacheRequest();
+        cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
+        cacheRequest.setKey(CacheConstant.USER_VISIT_NUMBER + ":" + SystemUtils.dateToRedis(new Date()));
+        String number = cacheService.stringGet(cacheRequest).getValue();
+        if (StringUtils.hasText(number)) {
+            cacheRequest.setValue(String.valueOf(Integer.parseInt(number) + 666));
+        } else {
+            cacheRequest.setValue("666");
+        }
+        cacheService.stringAdd(cacheRequest);
+        cacheRequest.setLifeTime(CacheConstant.USER_VISIT_NUMBER_DAY);
+        cacheService.keySetTime(cacheRequest);
+        recordVisitNumberTotal();
+    }
+
+    public void recordVisitNumberTotal() {
+        CacheRequest cacheRequest = new CacheRequest();
+        cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
+        cacheRequest.setKey(CacheConstant.USER_VISIT_NUMBER);
+        String number = cacheService.stringGet(cacheRequest).getValue();
+        if (StringUtils.hasText(number)) {
+            cacheRequest.setValue(String.valueOf(Integer.parseInt(number) + 666));
+        } else {
+            cacheRequest.setValue("666");
+        }
+        cacheService.stringAdd(cacheRequest);
     }
 
     private User buildUserByEntity(UserEntity userEntity) {

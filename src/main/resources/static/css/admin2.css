@@ -1,0 +1,720 @@
+/** layuiAdmin.pro-v2020.1.24 LPPL License By https://www.layui.com/admin/ */
+
+.layui-card-header {
+    position: relative
+}
+
+.layui-card-header .layui-icon {
+    line-height: initial;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    margin-top: -7px
+}
+
+.layadmin-iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0
+}
+
+.layadmin-carousel {
+    height: 185px !important;
+    background-color: #fff
+}
+
+.layadmin-carousel .layui-carousel-ind li {
+    background-color: #e2e2e2
+}
+
+.layadmin-carousel .layui-carousel-ind li:hover {
+    background-color: #c2c2c2
+}
+
+.layadmin-carousel .layui-carousel-ind li.layui-this {
+    background-color: #999
+}
+
+.layadmin-carousel .layui-carousel, .layadmin-carousel > [carousel-item] > * {
+    background-color: #fff
+}
+
+.layadmin-carousel .layui-col-space10 {
+    margin: 0
+}
+
+.layadmin-carousel .layui-carousel-ind {
+    position: absolute;
+    top: -41px;
+    text-align: right
+}
+
+.layadmin-carousel .layui-carousel-ind ul {
+    background: 0 0
+}
+
+.layui-card .layui-tab-brief .layui-tab-title {
+    height: 42px;
+    border-bottom-color: #f6f6f6
+}
+
+.layui-card .layui-tab-brief .layui-tab-title li {
+    margin: 0 15px;
+    padding: 0;
+    line-height: 42px
+}
+
+.layui-card .layui-tab-brief .layui-tab-title li.layui-this {
+    color: #333
+}
+
+.layui-card .layui-tab-brief .layui-tab-title .layui-this:after {
+    height: 43px
+}
+
+.layui-card .layui-tab-brief .layui-tab-content {
+    padding: 15px
+}
+
+.layui-card .layui-table-view {
+    margin: 0
+}
+
+.layadmin-shortcut li {
+    text-align: center
+}
+
+.layadmin-shortcut li .layui-icon {
+    display: inline-block;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    border-radius: 2px;
+    font-size: 30px;
+    background-color: #F8F8F8;
+    color: #333;
+    transition: all .3s;
+    -webkit-transition: all .3s
+}
+
+.layadmin-shortcut li cite {
+    position: relative;
+    top: 2px;
+    display: block;
+    color: #666;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 14px
+}
+
+.layadmin-shortcut li:hover .layui-icon {
+    background-color: #f2f2f2
+}
+
+.layadmin-backlog .layadmin-backlog-body {
+    display: block;
+    padding: 10px 15px;
+    background-color: #f8f8f8;
+    color: #999;
+    border-radius: 2px;
+    transition: all .3s;
+    -webkit-transition: all .3s
+}
+
+.layadmin-backlog-body h3 {
+    padding-bottom: 10px;
+    font-size: 12px
+}
+
+.layadmin-backlog-body p cite {
+    font-style: normal;
+    font-size: 30px;
+    font-weight: 300;
+    color: #009688
+}
+
+.layadmin-backlog-body:hover {
+    background-color: #f2f2f2;
+    color: #888
+}
+
+.layadmin-dataview {
+    height: 332px !important
+}
+
+.layadmin-dataview > [carousel-item]:before {
+    display: none
+}
+
+.layadmin-dataview > [carousel-item] > div {
+    height: 332px
+}
+
+.layadmin-takerates {
+    padding-top: 5px
+}
+
+.layadmin-takerates .layui-progress {
+    margin: 50px 0 60px
+}
+
+.layadmin-takerates .layui-progress:last-child {
+    margin-bottom: 10px
+}
+
+.layadmin-takerates .layui-progress h3 {
+    position: absolute;
+    right: 0;
+    top: -35px;
+    color: #999;
+    font-size: 14px
+}
+
+.layadmin-takerates .layui-progress-bar {
+    text-align: left
+}
+
+.layadmin-takerates .layui-progress-text {
+    top: -35px;
+    line-height: 26px;
+    font-size: 26px
+}
+
+.layadmin-news {
+    height: 60px !important;
+    padding: 5px 0
+}
+
+.layadmin-news a {
+    display: block;
+    line-height: 60px;
+    text-align: center
+}
+
+.layadmin-news .layui-carousel-ind {
+    height: 45px
+}
+
+.layadmin-list li {
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom-color: #f6f6f6;
+    list-style-position: inside;
+    list-style-type: disc;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.layadmin-list li a {
+    color: #666
+}
+
+.layadmin-list li a:hover {
+    color: #009688
+}
+
+.layadmin-list li:last-child {
+    border: none;
+    padding: 0;
+    margin: 0
+}
+
+.layadmin-text p {
+    margin-bottom: 10px;
+    text-indent: 2em
+}
+
+.layadmin-text p:last-child {
+    margin: 0
+}
+
+.layadmin-font-em {
+    font-size: 13px;
+    color: #758697
+}
+
+.layui-card-header .layui-a-tips {
+    position: absolute;
+    right: 15px;
+    color: #01AAED
+}
+
+.layuiadmin-card-text {
+    background-color: #f8f8f8;
+    color: #777;
+    padding: 24px
+}
+
+.layuiadmin-card-text .layui-text-top {
+    padding-bottom: 10px
+}
+
+.layuiadmin-card-text .layui-text-top i {
+    margin-right: 10px;
+    font-size: 24px;
+    color: #009688
+}
+
+.layuiadmin-card-text .layui-text-top a {
+    line-height: 24px;
+    font-size: 16px;
+    vertical-align: top
+}
+
+.layuiadmin-card-text .layui-text-center {
+    height: 44px;
+    line-height: 22px;
+    margin-bottom: 10px;
+    overflow: hidden
+}
+
+.layuiadmin-card-text .layui-text-bottom {
+    position: relative
+}
+
+.layuiadmin-card-text .layui-text-bottom a {
+    color: #777;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    word-break: break-all
+}
+
+.layuiadmin-card-text .layui-text-bottom span {
+    color: #CCC;
+    font-size: 12px;
+    position: absolute;
+    right: 0
+}
+
+.layuiadmin-badge, .layuiadmin-btn-group, .layuiadmin-span-color {
+    position: absolute;
+    right: 15px
+}
+
+.layuiadmin-card-link a:hover, .layuiadmin-card-team li a:hover, .layuiadmin-card-text a:hover {
+    color: #01AAED;
+    transition: all .3s
+}
+
+.layuiadmin-card-status {
+    padding: 0 10px 10px
+}
+
+.layuiadmin-card-status dd {
+    padding: 15px 0;
+    border-bottom: 1px solid #EEE;
+    display: -webkit-flex;
+    display: flex
+}
+
+.layuiadmin-card-status dd:last-child {
+    border: none
+}
+
+.layuiadmin-card-status dd div.layui-status-img, .layuiadmin-card-team .layui-team-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #009688;
+    margin-right: 15px
+}
+
+.layuiadmin-card-status dd div.layui-status-img a {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    text-align: center;
+    line-height: 32px
+}
+
+.layuiadmin-card-status dd div.layui-status-img img, .layuiadmin-card-team .layui-team-img img {
+    width: 50%;
+    height: 50%
+}
+
+.layuiadmin-card-status dd div a {
+    color: #01AAED
+}
+
+.layuiadmin-card-status dd div span {
+    color: #BBB
+}
+
+.layuiadmin-card-link {
+    padding-left: 10px;
+    font-size: 0
+}
+
+.layuiadmin-card-link a {
+    display: inline-block;
+    width: 25%;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 12px
+}
+
+.layuiadmin-card-link button {
+    vertical-align: top
+}
+
+.layuiadmin-card-link button:hover {
+    color: #009688
+}
+
+.layuiadmin-card-team li {
+    padding: 10px 0 10px 10px
+}
+
+.layuiadmin-card-team .layui-team-img {
+    display: inline-block;
+    margin-right: 8px;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    line-height: 24px
+}
+
+.layuiadmin-card-team span {
+    color: #777
+}
+
+.layuiadmin-badge {
+    top: 50%;
+    margin-top: -9px;
+    color: #01AAED
+}
+
+.layuiadmin-card-list {
+    padding: 15px
+}
+
+.layuiadmin-card-list p.layuiadmin-big-font {
+    font-size: 36px;
+    color: #666;
+    line-height: 36px;
+    padding: 5px 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap
+}
+
+.layuiadmin-card-list p.layuiadmin-normal-font {
+    padding-bottom: 10px;
+    font-size: 20px;
+    color: #666;
+    line-height: 24px
+}
+
+.layuiadmin-span-color {
+    font-size: 14px
+}
+
+.layuiadmin-span-color i {
+    padding-left: 5px
+}
+
+.layuiadmin-card-status li {
+    position: relative;
+    padding: 10px 0;
+    border-bottom: 1px solid #EEE
+}
+
+.layuiadmin-card-status li h3 {
+    padding-bottom: 5px;
+    font-weight: 700
+}
+
+.layuiadmin-card-status li p {
+    padding-bottom: 10px
+}
+
+.layuiadmin-card-status li > span {
+    color: #999
+}
+
+.layuiadmin-home2-usernote .layuiadmin-reply {
+    display: none;
+    position: absolute;
+    right: 0;
+    bottom: 12px
+}
+
+.layuiadmin-home2-usernote li:hover .layuiadmin-reply {
+    display: block
+}
+
+.layuiadmin-page-table td span {
+    color: #2F4056
+}
+
+.layuiadmin-page-table td span.first {
+    color: #FF5722
+}
+
+.layuiadmin-page-table td span.second {
+    color: #FFB800
+}
+
+.layuiadmin-page-table td span.third {
+    color: #5FB878
+}
+
+.layuiAdmin-msg-detail h1 {
+    font-size: 16px
+}
+
+.layuiAdmin-msg-detail .layui-card-header {
+    height: auto;
+    line-height: 30px;
+    padding: 15px
+}
+
+.layuiAdmin-msg-detail .layui-card-header span {
+    padding: 0 5px;
+    color: #999
+}
+
+.layuiAdmin-msg-detail .layui-card-header span:first-child {
+    padding-left: 0
+}
+
+.layuiAdmin-msg-detail .layui-card-body {
+    padding: 15px
+}
+
+.layuiadmin-content-bread {
+    padding-bottom: 20px
+}
+
+.layuiadmin-order-progress {
+    position: relative;
+    top: 12px
+}
+
+.layui-card-header.layuiadmin-card-header-auto {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height: auto
+}
+
+.layuiadmin-card-header-auto i.layuiadmin-button-btn {
+    position: relative;
+    right: 0;
+    top: 0;
+    vertical-align: middle
+}
+
+.layuiadmin-card-header-auto .layui-form-item:last-child {
+    margin-bottom: 0
+}
+
+.layadmin-setTheme {
+    padding: 15px;
+    overflow-x: hidden
+}
+
+.layadmin-setTheme > h5 {
+    padding: 20px 0 10px;
+    color: #000
+}
+
+.layadmin-setTheme > h5:first-child {
+    padding-top: 0
+}
+
+.layadmin-setTheme-color {
+    width: 330px;
+    font-size: 0
+}
+
+.layadmin-setTheme-color li {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 80px;
+    height: 50px;
+    margin: 0 15px 15px 0;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    font-size: 12px;
+    color: #666
+}
+
+.layadmin-setTheme-color li:after {
+    content: '';
+    position: absolute;
+    z-index: 20;
+    top: 50%;
+    left: 50%;
+    width: 1px;
+    height: 0;
+    border: 1px solid #f2f2f2;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    opacity: 0
+}
+
+.layadmin-setTheme-color li.layui-this:after, .layadmin-setTheme-color li:hover:after {
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    top: -5px;
+    left: -5px;
+    border-color: #5FB878;
+    opacity: 1
+}
+
+.layadmin-setTheme-header {
+    position: relative;
+    z-index: 10;
+    height: 10px;
+    border-top: 1px solid #f2f2f2;
+    border-right: 1px solid #f2f2f2
+}
+
+.layadmin-setTheme-side {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 100%;
+    z-index: 11;
+    box-shadow: 1px 0 2px 0 rgba(0, 0, 0, .05)
+}
+
+.layadmin-setTheme-logo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 10px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .15)
+}
+
+.layadmin-form-right {
+    text-align: right
+}
+
+.layadmin-about p {
+    margin-bottom: 10px
+}
+
+.layadmin-menu-list .layui-card-header {
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px
+}
+
+.layadmin-menu-list .layui-card-header:active {
+    background-color: #f2f2f2
+}
+
+.layadmin-menu-list .layui-card-header .layui-icon {
+    position: relative;
+    top: 1px;
+    left: 0;
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 18px
+}
+
+@-webkit-keyframes layui-rl {
+    from {
+        -webkit-transform: translate3d(100%, 0, 0)
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0)
+    }
+}
+
+@keyframes layui-rl {
+    from {
+        transform: translate3d(100%, 0, 0)
+    }
+    to {
+        transform: translate3d(0, 0, 0)
+    }
+}
+
+.layui-anim-rl {
+    -webkit-animation-name: layui-rl;
+    animation-name: layui-rl
+}
+
+@-webkit-keyframes layui-lr {
+    from {
+        -webkit-transform: translate3d(0 0, 0);
+        opacity: 1
+    }
+    to {
+        -webkit-transform: translate3d(100%, 0, 0);
+        opacity: 1
+    }
+}
+
+@keyframes layui-lr {
+    from {
+        transform: translate3d(0, 0, 0)
+    }
+    to {
+        transform: translate3d(100%, 0, 0)
+    }
+}
+
+.layui-anim-lr, .layui-anim-rl.layer-anim-close {
+    -webkit-animation-name: layui-lr;
+    animation-name: layui-lr
+}
+
+.layadmin-tips {
+    margin-top: 30px;
+    text-align: center
+}
+
+.layadmin-tips .layui-icon[face] {
+    display: inline-block;
+    font-size: 300px;
+    color: #393D49
+}
+
+.layadmin-tips .layui-text {
+    width: 500px;
+    margin: 30px auto;
+    padding-top: 20px;
+    border-top: 5px solid #009688;
+    font-size: 16px
+}
+
+.layadmin-tips h1 {
+    font-size: 100px;
+    line-height: 100px;
+    color: #009688
+}
+
+.layadmin-tips .layui-text .layui-anim {
+    display: inline-block
+}
+
+@media screen and (max-width: 768px) {
+    .layadmin-panel-selection {
+        margin: 0;
+        width: auto
+    }
+
+    .layui-body .layui-nav .layui-nav-item {
+        display: block
+    }
+
+    .layui-layout-admin .layui-body .layadmin-tabsbody-item {
+        -webkit-overflow-scrolling: touch;
+        overflow: auto
+    }
+}

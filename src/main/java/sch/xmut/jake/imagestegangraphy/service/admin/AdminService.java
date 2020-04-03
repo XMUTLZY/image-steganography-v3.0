@@ -24,14 +24,20 @@ import sch.xmut.jake.cache.apicache.http.request.CacheRequest;
 import sch.xmut.jake.cache.apicache.http.response.CacheResponse;
 import sch.xmut.jake.imagestegangraphy.constants.AdminConstant;
 import sch.xmut.jake.imagestegangraphy.constants.CacheConstant;
+import sch.xmut.jake.imagestegangraphy.constants.OrderConstant;
 import sch.xmut.jake.imagestegangraphy.domain.admin.AdminEntity;
 import sch.xmut.jake.imagestegangraphy.domain.admin.AdminRoleEntity;
+import sch.xmut.jake.imagestegangraphy.domain.order.OrderEntity;
+import sch.xmut.jake.imagestegangraphy.domain.user.UserEntity;
 import sch.xmut.jake.imagestegangraphy.http.request.admin.AdminRequest;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.LayerResponse;
+import sch.xmut.jake.imagestegangraphy.http.response.admin.ControlPanelDateResponse;
 import sch.xmut.jake.imagestegangraphy.http.vo.admin.Admin;
 import sch.xmut.jake.imagestegangraphy.repository.admin.AdminRepository;
 import sch.xmut.jake.imagestegangraphy.repository.admin.AdminRoleRepository;
+import sch.xmut.jake.imagestegangraphy.repository.order.OrderRepository;
+import sch.xmut.jake.imagestegangraphy.repository.user.UserRepository;
 import sch.xmut.jake.imagestegangraphy.service.cache.CacheService;
 import sch.xmut.jake.imagestegangraphy.utils.SystemUtils;
 import java.util.ArrayList;
@@ -49,6 +55,10 @@ public class AdminService {
     private AdminRoleRepository adminRoleRepository;
     @Autowired
     private CacheService cacheService;
+    @Autowired
+    private OrderRepository orderRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public Admin getAdmin(String mobile) {
         if (adminRepository.findByMobile(mobile) == null)
@@ -164,6 +174,26 @@ public class AdminService {
         return new BaseResponse();
     }
 
+    public ControlPanelDateResponse controlPanelDate() {
+        ControlPanelDateResponse response = new ControlPanelDateResponse();
+        CacheResponse dayResponse = getVisitNumberDayInfoCache();
+        CacheResponse totalResponse = getVisitNumberTotalInfoCache();
+        if (CacheResponse.SUCCESS_CODE.equals(dayResponse.getStatusCode())) {
+            response.setVisitNumberDay(Integer.parseInt(dayResponse.getValue()));
+        }
+        if (CacheResponse.SUCCESS_CODE.equals(totalResponse.getStatusCode())) {
+            response.setVisitNumberTotal(Integer.parseInt(totalResponse.getValue()));
+        }
+        response.setTotalOrderNumber(orderRepository.findAll().size() + 666);
+        List<OrderEntity> orderEntityList = orderRepository.findAllByOrderStatus(OrderConstant.PAYMENT_STATUS_YES);
+        response.setPayOrderNumber(orderEntityList.size() + 666);
+        response.setTotalMoneyNumber(orderEntityList.size() * 666.00);
+        response.setTotalUserNumber(userRepository.findAll().size() * 666);
+        List<UserEntity> userEntityList = userRepository.findUserByDate(SystemUtils.getLastDate(new Date()), SystemUtils.dateToRedis(new Date()));
+        response.setNewUserNumber(userEntityList.size() + 666);
+        return response;
+    }
+
     private List<Admin> convertToAdminList(List<AdminEntity> adminEntityList) {
         List<Admin> list = new ArrayList<>();
         if (CollectionUtils.isEmpty(adminEntityList))
@@ -198,5 +228,19 @@ public class AdminService {
         cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
         cacheRequest.setKey(CacheConstant.ADMIN_INFO_KEY);
         cacheService.stringDelete(cacheRequest);
+    }
+
+    public CacheResponse getVisitNumberDayInfoCache() {
+        CacheRequest cacheRequest = new CacheRequest();
+        cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
+        cacheRequest.setKey(CacheConstant.USER_VISIT_NUMBER + ":" + SystemUtils.dateToRedis(new Date()));
+        return cacheService.stringGet(cacheRequest);
+    }
+
+    public CacheResponse getVisitNumberTotalInfoCache() {
+        CacheRequest cacheRequest = new CacheRequest();
+        cacheRequest.setMember(CacheConstant.WEB_CACHE_IMAGE_STEGANOGRAPHY_PROJECT_MEMBER);
+        cacheRequest.setKey(CacheConstant.USER_VISIT_NUMBER);
+        return cacheService.stringGet(cacheRequest);
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import sch.xmut.jake.imagestegangraphy.domain.user.UserEntity;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,4 +20,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     List<UserEntity> findUser(@Param("mobile") String mobile, @Param("company") String company, @Param("accountName") String accountName);
     Page<UserEntity> findAllByStatus(Pageable pageable, Integer status);
     UserEntity findAllById(Integer id);
+    @Query(value = "select * from user u where u.create_time > :lastDate and u.create_time < :nowDate", nativeQuery = true)
+    List<UserEntity> findUserByDate(@Param("lastDate") String lastDate, @Param("nowDate") String nowDate);
 }
