@@ -30,6 +30,21 @@ public class UserViewController {
         return "/user/userIndex";
     }
 
+    @RequestMapping("/infoExtract")
+    public String infoExtract() {
+        return "/user/infoExtract";
+    }
+
+    @RequestMapping("/infoEmbed")
+    public String infoEmbed() {
+        return "/user/infoEmbed";
+    }
+
+    @RequestMapping("/algorithmDetail")
+    public String algorithmDetail() {
+        return "/user/algorithmDetail";
+    }
+
     @RequestMapping("/forget")
     public String userForget() {
         return "/user/userForget";

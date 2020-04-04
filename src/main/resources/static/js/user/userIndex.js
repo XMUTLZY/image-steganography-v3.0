@@ -7,8 +7,21 @@ var userIndexJs = {
         userIndexJs.event.orginalImageUpload();
         userIndexJs.event.initBanner();
         userIndexJs.event.imageUpload();
+        userIndexJs.event.linkToInfoEmbedPage();
     },
     event: {
+        linkToInfoEmbedPage: function () {
+            layer.load();
+            $.ajax({
+                url: '/userView/infoEmbed',
+                type: 'get',
+                success: function (result) {
+                    $("#field-title").removeClass("layui-hide");
+                    $("#user-page").html(result);
+                    layer.closeAll();
+                }
+            })
+        },
         isToDownloadImage: function() {
             $.ajax({
                 url: '/order/get-no-download',
@@ -280,6 +293,30 @@ var userIndexJs = {
                 },
                 error: function () {
                     layer.msg("数据请求异常");
+                }
+            })
+        },
+        linkToInfoExtractPage: function () {
+            layer.load();
+            $.ajax({
+                url: '/userView/infoExtract',
+                type: 'get',
+                success: function (result) {
+                    $("#field-title").removeClass("layui-hide");
+                    $("#user-page").html(result);
+                    layer.closeAll();
+                }
+            })
+        },
+        linkToAlgorithmDetail: function () {
+            layer.load();
+            $.ajax({
+                url: '/userView/algorithmDetail',
+                type: 'get',
+                success: function (result) {
+                    $("#field-title").addClass("layui-hide");
+                    $("#user-page").html(result);
+                    layer.closeAll();
                 }
             })
         }

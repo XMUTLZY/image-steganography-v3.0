@@ -1,0 +1,58 @@
+<div style="padding: 20px; background-color: #F2F2F2;" id="info-embedding-page">
+    <!-- 图像隐写 -->
+    <div class="layui-row layui-col-space30 layui-show" id="menu1">
+        <div class="layui-col-md5 layui-col-md-offset1">
+            <div class="left" style="width: 100%;height: 1000px;background: white;">
+                <button type="button" class="layui-btn left-btn1" id="image-upload">
+                    <i class="layui-icon">&#xe67c;</i>点击上传您需要处理的图片
+                </button>
+                <div class="left-show" style="width: 100%;height: 50%;border-bottom: 1px solid darkgray;">
+                    <div class="layui-upload-drag" style="width: 70%;height: 70%;margin: 50px;float: left">
+                        <i class="layui-icon"></i>
+                        <img id="original-image"
+                             src="https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%20%281%29.png"
+                             style="width: 90%;height:90%;">
+                    </div>
+                </div>
+                <div class="layui-form layui-form-pane" style="width: 100%;height: 25%;margin-top: 60px;">
+                    <div class="layui-form-item layui-form-text" style="width: 70%;margin:0 auto;">
+                        <label class="layui-form-label">信息藏入</label>
+                        <div class="layui-input-block">
+                                <textarea placeholder="请输入您要藏入的信息" id="input-info" rows="5"
+                                          class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="left-bnt2" style="width: 100%;height: 25%;">
+                    <button class="layui-btn" onclick="userIndexJs.method.generateImage();" style="margin: 0 auto;">
+                        生成藏入信息后的图片
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md5">
+            <div class="result" style="height: 1000px;width: 100%;background: white;">
+                <div class="right-result1" style="width: 70%;height: 40%;margin: 0px auto;">
+                    <img id="resultImage1" oncontextmenu="return false;" onselectstart="return false;"
+                         src="https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%20%283%29.png"
+                         style="width: 90%;height: 75%;">
+                    <div class="layui-form-label" style="margin:auto 135px;">PSNR:<label id="psnr1"></label>
+                    </div>
+                </div>
+                <div class="right-result2" style="width: 70%;height: 40%;margin: 0px auto;">
+                    <img id="resultImage2" oncontextmenu="return false;" onselectstart="return false;"
+                         src="https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%20%283%29.png"
+                         style="width: 90%;height: 75%;">
+                    <div class="layui-form-label" style="margin:auto 135px;">PSNR:<label id="psnr2"></label>
+                    </div>
+                </div>
+                <div class="right-btn2" style="width: 100%;height: 20%;">
+                    <button class="layui-btn layui-btn-normal" onclick="userIndexJs.method.payAndDownload();"
+                            style="margin: 33px auto;">
+                        购买并下载
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
