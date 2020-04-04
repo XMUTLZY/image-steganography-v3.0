@@ -23,9 +23,9 @@ public class AlipayConstant {
             "+pvMb2QX1hhIw1oiJ7CF0oHwUHGJYVxQeM8Xu039Hrh+lhGwmSnCDv9EyVVWAh0KKXUSM2MrKROJayPEnmXjSa3AZ2GcblkRq49GBby1nBr+9p2iXZC2+CsEOng3pnTEvOk/" +
             "z3ArHgsYAfDfUwjk3ZwIDAQAB";
     // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    public static String NOTIFY_URL = "http://teeqn2.natappfree.cc/order/alipayNotifyNotice";
+    public static String NOTIFY_URL = "http://h5mugs.natappfree.cc/order/alipayNotifyNotice";
     // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    public static String RETURN_URL = "http://teeqn2.natappfree.cc/order/alipayReturnNotice";
+    public static String RETURN_URL = "http://h5mugs.natappfree.cc/order/alipayReturnNotice";
     // 签名方式
     public static String SIGN_TYPE = "RSA2";
     // 字符编码格式

@@ -4,19 +4,18 @@ $(function () {
 var userIndexJs = {
     bindEvent: function () {
         userIndexJs.event.isToDownloadImage();
-        userIndexJs.event.orginalImageUpload();
         userIndexJs.event.initBanner();
-        userIndexJs.event.imageUpload();
-        userIndexJs.event.linkToAlgorithmDetail();
+        userIndexJs.event.userInfoImageUpload();
+        userIndexJs.event.linkToInfoEmbedPage();
     },
     event: {
-        linkToAlgorithmDetail: function () {
+        linkToInfoEmbedPage: function () {
             layer.load();
             $.ajax({
-                url: '/userView/algorithmDetail',
+                url: '/userView/infoEmbed',
                 type: 'get',
                 success: function (result) {
-                    $("#field-title").addClass("layui-hide");
+                    $("#field-title").removeClass("layui-hide");
                     $("#user-page").html(result);
                     layer.closeAll();
                 }
@@ -58,28 +57,6 @@ var userIndexJs = {
                 }
             })
         },
-        orginalImageUpload: function () {
-            layui.use('upload', function () {
-                var $ = layui.jquery
-                    , upload = layui.upload;
-                //普通图片上传
-                upload.render({
-                    elem: '#image-upload'
-                    , url: '/api/image-upload-oss'
-                    , accept: 'images'
-                    , before: function () {
-                        layer.load();
-                    }
-                    , done: function (res) {
-                        layer.closeAll('loading');
-                        $("#original-image").attr('src', res.image_url);
-                    }
-                    , error: function (index, upload) {
-                        layer.msg("错误");
-                    }
-                });
-            });
-        },
         initBanner: function () {
             layui.use('carousel', function(){
                 var carousel = layui.carousel;
@@ -92,7 +69,7 @@ var userIndexJs = {
                 });
             });
         },
-        imageUpload: function() {
+        userInfoImageUpload: function() {
             layui.use('upload', function () {
                 var $ = layui.jquery
                     , upload = layui.upload;
@@ -116,66 +93,6 @@ var userIndexJs = {
         },
     },
     method: {
-        generateImage: function () {
-            var data = {};
-            data.hidden_data = $("#input-info").val();
-            data.orginal_image = $("#original-image").attr("src");
-            if (data.orginal_image == "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%20%281%29.png") {
-                layer.msg("请先上传图片");
-                return;
-            }
-            if (data.hidden_data == "") {
-                layer.msg("请输入需要藏入的信息");
-                return;
-            }
-            layer.load();
-            $.ajax({
-                url: '/order/generate-image',
-                data: JSON.stringify(data),
-                type: 'post',
-                contentType: 'application/json',
-                success: function (result) {
-                    layer.closeAll('loading');
-                    layer.msg('信息藏入成功！')
-                    $("#resultImage1").attr("src", result.result_image_map["resultImageOne"]);
-                    $("#resultImage2").attr("src", result.result_image_map["resultImageTwo"]);
-                    $("#psnr1").html(result.result_psnr_map["resultImageOne"]);
-                    $("#psnr2").html(result.result_psnr_map["resultImageTwo"]);
-                },
-                error: function () {
-                    layer.msg('数据异常');
-                }
-            })
-        },
-        payAndDownload: function () {
-            if ($("#original-image").attr("src") == "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%20%281%29.png") {
-                layer.msg("请先上传图片");
-                return;
-            }
-            if ($("#input-info").val() == "") {
-                layer.msg("请先输入您要藏入的信息");
-                return;
-            }
-            if ($("#resultImage1").attr("src") == "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%20%283%29.png"
-                || $("#resultImage2").attr("src") == "https://image-steganography.oss-cn-hangzhou.aliyuncs.com/banner/%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%20%283%29.png") {
-                layer.msg("暂未发现有可支付的订单");
-                return;
-            }
-            window.location.href = "/orderView/details";
-        },
-        downloadForCros: function (imageUrl, imageName) {//跨域请求OSS图片 并下载
-            var x = new XMLHttpRequest();
-            x.open("GET", imageUrl, true);
-            x.responseType = 'blob';
-            x.onload=function(e) {
-                var url = window.URL.createObjectURL(x.response)
-                var a = document.createElement('a');
-                a.href = url
-                a.download = imageName;
-                a.click()
-            }
-            x.send();
-        },
         userInfoDialog: function () {
             $.ajax({
                 url: '/user/user-get',
@@ -308,17 +225,17 @@ var userIndexJs = {
                 }
             })
         },
-        linkToInfoEmbedPage: function () {
+        linkToAlgorithmDetail: function () {
             layer.load();
             $.ajax({
-                url: '/userView/infoEmbed',
+                url: '/userView/algorithmDetail',
                 type: 'get',
                 success: function (result) {
-                    $("#field-title").removeClass("layui-hide");
+                    $("#field-title").addClass("layui-hide");
                     $("#user-page").html(result);
                     layer.closeAll();
                 }
             })
-        },
+        }
     }
 }

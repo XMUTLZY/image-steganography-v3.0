@@ -32,6 +32,10 @@
             color: #666;
             font-weight: 300;
         }
+
+        img[src=""],img:not([src]){
+            opacity:0;
+        }
     </style>
 </head>
 <body style="text-align: center;">
@@ -40,9 +44,9 @@
         <div class="layui-logo">图像隐写在线服务平台</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a onclick="userIndexJs.method.linkToInfoEmbedPage()">图像隐写</a></li>
+            <li class="layui-nav-item layui-this"><a onclick="userIndexJs.event.linkToInfoEmbedPage()">图像隐写</a></li>
             <li class="layui-nav-item"><a onclick="userIndexJs.method.linkToInfoExtractPage();">信息提取</a></li>
-            <li class="layui-nav-item layui-this"><a onclick="userIndexJs.event.linkToAlgorithmDetail();">算法描述</a></li>
+            <li class="layui-nav-item"><a onclick="userIndexJs.method.linkToAlgorithmDetail();">算法描述</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">系统设置</a>
                 <dl class="layui-nav-child">

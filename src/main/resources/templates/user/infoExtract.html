@@ -1,3 +1,66 @@
-<div style="padding: 20px; background-color: #F2F2F2;" id="info-extracting-page">
-    123
+<div style="background-color: #F2F2F2;" id="info-extracting-page">
+    <div class="layui-fluid" id="LAY-component-grid-mobile" style="width: 70%; margin: auto 200px;">
+        <div class="layui-row layui-col-space12">
+            <div class="layui-col-xs6">
+                <!-- 填充内容 -->
+                <div class="layui-card" style="height: 470px;">
+                    <div class="layui-card-header" style="text-align: center;">
+                        藏有秘密数据的图像（主）
+                    </div>
+                    <div class="layui-card-body">
+                        <div class="layui-upload-drag" id="major-image-upload" style="width:60%;height:300px;margin:20px auto;">
+                            <i class="layui-icon"></i>
+                            <p>点击上传，或将文件拖拽到此处</p>
+                            <img style="width: 100%;height: 85%;" id="major-image" src="">
+                        </div>
+                        <input class="layui-upload-file" type="file" accept="" name="file">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <div class="layui-card" style="height: 470px;">
+                    <div class="layui-card-header" style="text-align: center;">
+                        藏有秘密数据的图像（辅）
+                    </div>
+                    <div class="layui-card-body">
+                        <div class="layui-upload-drag" id="assist-image-upload" style="width:60%;height:300px;margin:20px auto;">
+                            <i class="layui-icon"></i>
+                            <p>点击上传，或将文件拖拽到此处</p>
+                            <img style="width: 100%;height: 85%;" id="assist-image" src="">
+                        </div>
+                        <input class="layui-upload-file" type="file" accept="" name="file">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs4">
+                <div class="layui-card" style="height: 200px;">
+                    <div class="layui-card-header" style="text-align: center;">
+                        还原后的原始图像
+                    </div>
+                    <div class="layui-card-body"></div>
+                </div>
+            </div>
+            <div class="layui-col-xs4">
+                <div class="layui-card" style="height: 200px;">
+                    <div class="layui-card-header" style="text-align: center; color: #16b322;">
+                        操作栏
+                    </div>
+                    <div class="layui-card-body" style="margin:40px auto;">
+                        <button class="layui-btn layui-btn-normal">图像还原</button>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs4">
+                <div class="layui-card" style="height: 200px;">
+                    <div class="layui-card-header" style="text-align: center;">
+                        提取出的秘密数据
+                    </div>
+                    <div class="layui-card-body"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script src="/layui/layui.all.js"></script>
+<script src="/js/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/user/infoExtract.js"></script>
