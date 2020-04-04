@@ -7,16 +7,16 @@ var userIndexJs = {
         userIndexJs.event.orginalImageUpload();
         userIndexJs.event.initBanner();
         userIndexJs.event.imageUpload();
-        userIndexJs.event.linkToInfoEmbedPage();
+        userIndexJs.event.linkToAlgorithmDetail();
     },
     event: {
-        linkToInfoEmbedPage: function () {
+        linkToAlgorithmDetail: function () {
             layer.load();
             $.ajax({
-                url: '/userView/infoEmbed',
+                url: '/userView/algorithmDetail',
                 type: 'get',
                 success: function (result) {
-                    $("#field-title").removeClass("layui-hide");
+                    $("#field-title").addClass("layui-hide");
                     $("#user-page").html(result);
                     layer.closeAll();
                 }
@@ -308,17 +308,17 @@ var userIndexJs = {
                 }
             })
         },
-        linkToAlgorithmDetail: function () {
+        linkToInfoEmbedPage: function () {
             layer.load();
             $.ajax({
-                url: '/userView/algorithmDetail',
+                url: '/userView/infoEmbed',
                 type: 'get',
                 success: function (result) {
-                    $("#field-title").addClass("layui-hide");
+                    $("#field-title").removeClass("layui-hide");
                     $("#user-page").html(result);
                     layer.closeAll();
                 }
             })
-        }
+        },
     }
 }

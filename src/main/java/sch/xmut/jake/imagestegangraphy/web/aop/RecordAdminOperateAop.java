@@ -141,6 +141,9 @@ public class RecordAdminOperateAop {
             case "operateRecords":
                 adminOperateLog.setOperateStr(buildAdminOperateStr(adminOperateLog, "查询了操作记录列表"));
                 break;
+            case "controlPanel":
+                adminOperateLog.setOperateStr(buildAdminOperateStr(adminOperateLog, "访问了控制台、营业额等数据"));
+                break;
             default:
                 break;
         }
