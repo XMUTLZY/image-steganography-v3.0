@@ -509,6 +509,24 @@ var adminIndexJs = {
             $("#user-list").addClass('layui-hide');
             $("#order-list").addClass('layui-hide');
             $("#admin-operate-list").addClass('layui-hide');
-        }
+            $.ajax({
+                url: '/admin/control-panel',
+                type: 'post',
+                contentType: 'application/json',
+                success: function (result) {
+                    $("#visit-number-day").html(result.visit_number_day);
+                    $("#visit-number-total").html(result.visit_number_total + " <i class=\"layui-icon\"></i>");
+                    $("#total-order-number").html(result.total_order_number);
+                    $("#pay-order-number").html(result.pay_order_number + " <i class=\"layui-icon\"></i>");
+                    $("#total-money-number").html(result.total_money_number);
+                    $("#total-user-number").html(result.total_user_number);
+                    $("#new-user-number").html(result.new_user_number + " <i class=\"layui-icon\"></i>");
+                },
+                error: function () {
+                    layer.msg("数据请求异常");
+                }
+            })
+        },
+
     }
 }

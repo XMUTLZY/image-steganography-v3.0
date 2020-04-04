@@ -61,7 +61,7 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item"><a onclick="adminIndexJs.method.adminOperateRecords();">操作记录</a></li>
-                <li class="layui-nav-item"><a href="">营业额</a></li>
+                <li class="layui-nav-item"><a onclick="adminIndexJs.method.controlPanel();">营业额</a></li>
             </ul>
         </div>
     </div>
@@ -149,10 +149,11 @@
                             <span class="layui-badge layui-bg-blue layuiadmin-badge">日</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">9,666</p>
+                            <p class="layuiadmin-big-font" id="visit-number-day"></p>
                             <p>
                                 累计访问量
-                                <span class="layuiadmin-span-color">88,855,12 <i class="layui-icon"></i></span>
+                                <span class="layuiadmin-span-color" id="visit-number-total">
+                                </span>
                             </p>
                         </div>
                     </div>
@@ -164,10 +165,11 @@
                             <span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">33,555</p>
+                            <p class="layuiadmin-big-font" id="total-order-number"></p>
                             <p>
                                 已支付
-                                <span class="layuiadmin-span-color">3002 <i class="layui-icon"></i></span>
+                                <span class="layuiadmin-span-color" id="pay-order-number">
+                                </span>
                             </p>
                         </div>
                     </div>
@@ -180,10 +182,10 @@
                         </div>
                         <div class="layui-card-body layuiadmin-card-list">
 
-                            <p class="layuiadmin-big-font">9,966</p>
+                            <p class="layuiadmin-big-font" id="total-money-number"></p>
                             <p>
-                                总收入
-                                <span class="layuiadmin-span-color">10,023,00 <i class="layui-icon"></i></span>
+                                单位
+                                <span class="layuiadmin-span-color">￥ <i class="layui-icon"></i></span>
                             </p>
                         </div>
                     </div>
@@ -196,15 +198,16 @@
                         </div>
                         <div class="layui-card-body layuiadmin-card-list">
 
-                            <p class="layuiadmin-big-font">333</p>
+                            <p class="layuiadmin-big-font" id="total-user-number"></p>
                             <p>
                                 今日新增用户
-                                <span class="layuiadmin-span-color">12<i class="layui-icon"></i></span>
+                                <span class="layuiadmin-span-color" id="new-user-number">
+                                </span>
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-sm4">
+                <div class="layui-col-sm6">
                     <div class="layui-card">
                         <div class="layui-card-header">用户反馈</div>
                         <div class="layui-card-body">
@@ -233,103 +236,18 @@
                                     <span>4月11日 00:00</span>
                                     <a href="javascript:;" layadmin-event="replyNote" data-id="2" class="layui-btn layui-btn-xs layuiadmin-reply">回复</a>
                                 </li>
-                                <li>
-                                    <h3>鲁迅</h3>
-                                    <p>路本是无所谓有和无的，走的人多了，就没路了。。</p>
-                                    <span>4月28日 00:00</span>
-                                    <a href="javascript:;" layadmin-event="replyNote" data-id="4" class="layui-btn layui-btn-xs layuiadmin-reply">回复</a>
-                                </li>
-                                <li>
-                                    <h3>张爱玲</h3>
-                                    <p>于千万人之中遇到你所要遇到的人，于千万年之中，时间的无涯的荒野中，没有早一步，也没有晚一步，刚巧赶上了，那也没有别的话好说，唯有轻轻的问一声：“噢，原来你也在这里？”</p>
-                                    <span>4月11日 00:00</span>
-                                    <a href="javascript:;" layadmin-event="replyNote" data-id="1" class="layui-btn layui-btn-xs layuiadmin-reply">回复</a>
-                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-sm8">
+                <div class="layui-col-sm6">
                     <div class="layui-row layui-col-space15">
-                        <div class="layui-col-sm6">
-                            <div class="layui-card">
-                                <div class="layui-card-header">本周活跃用户列表</div>
-                                <div class="layui-card-body">
-                                    <table class="layui-table layuiadmin-page-table" lay-skin="line">
-                                        <thead>
-                                        <tr>
-                                            <th>用户名</th>
-                                            <th>最后登录时间</th>
-                                            <th>状态</th>
-                                            <th>获得赞</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td><span class="first">胡歌</span></td>
-                                            <td><i class="layui-icon layui-icon-log"> 11:20</i></td>
-                                            <td><span>在线</span></td>
-                                            <td>22 <i class="layui-icon layui-icon-praise"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="second">彭于晏</span></td>
-                                            <td><i class="layui-icon layui-icon-log"> 10:40</i></td>
-                                            <td><span>在线</span></td>
-                                            <td>21 <i class="layui-icon layui-icon-praise"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="third">靳东</span></td>
-                                            <td><i class="layui-icon layui-icon-log"> 01:30</i></td>
-                                            <td><i>离线</i></td>
-                                            <td>66 <i class="layui-icon layui-icon-praise"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>吴尊</td>
-                                            <td><i class="layui-icon layui-icon-log"> 21:18</i></td>
-                                            <td><i>离线</i></td>
-                                            <td>45 <i class="layui-icon layui-icon-praise"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>许上进</td>
-                                            <td><i class="layui-icon layui-icon-log"> 09:30</i></td>
-                                            <td><span>在线</span></td>
-                                            <td>21 <i class="layui-icon layui-icon-praise"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>小蚊子</td>
-                                            <td><i class="layui-icon layui-icon-log"> 21:18</i></td>
-                                            <td><i>在线</i></td>
-                                            <td>45 <i class="layui-icon layui-icon-praise"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>贤心</td>
-                                            <td><i class="layui-icon layui-icon-log"> 09:30</i></td>
-                                            <td><span>在线</span></td>
-                                            <td>21 <i class="layui-icon layui-icon-praise"></i></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-col-sm6">
-                            <div class="layui-card">
-                                <div class="layui-card-header">项目进展</div>
-                                <div class="layui-card-body">
-                                    <div class="layui-tab-content">
-                                        <div class="layui-tab-item layui-show">
-                                            <table id="LAY-home-homepage2"></table><div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-4" lay-id="LAY-home-homepage2" style=" "><div class="layui-table-box"><div class="layui-table-header"><table cellspacing="0" cellpadding="0" border="0" class="layui-table" lay-skin="line"><thead><tr><th data-field="0" data-key="4-0-0" data-unresize="true" class=" layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary" lay-filter="layTableAllChoose"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></th><th data-field="prograss" data-key="4-0-1" class=""><div class="layui-table-cell laytable-cell-4-0-1"><span>任务</span></div></th><th data-field="time" data-key="4-0-2" class=""><div class="layui-table-cell laytable-cell-4-0-2"><span>所需时间</span></div></th><th data-field="complete" data-key="4-0-3" class=""><div class="layui-table-cell laytable-cell-4-0-3"><span>完成情况</span></div></th></tr></thead></table></div><div class="layui-table-body layui-table-main"><table cellspacing="0" cellpadding="0" border="0" class="layui-table" lay-skin="line"><tbody><tr data-index="0" class=""><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary" checked=""><div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td><td data-field="prograss" data-key="4-0-1" class=""><div class="layui-table-cell laytable-cell-4-0-1">开会</div></td><td data-field="time" data-key="4-0-2" class=""><div class="layui-table-cell laytable-cell-4-0-2">一小时</div></td><td data-field="complete" data-key="4-0-3" data-content="已完成" class=""><div class="layui-table-cell laytable-cell-4-0-3"><del style="color: #5FB878;">已完成</del></div></td></tr><tr data-index="1"><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary" checked=""><div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td><td data-field="prograss" data-key="4-0-1" class=""><div class="layui-table-cell laytable-cell-4-0-1">项目开发</div></td><td data-field="time" data-key="4-0-2" class=""><div class="layui-table-cell laytable-cell-4-0-2">两小时</div></td><td data-field="complete" data-key="4-0-3" data-content="进行中" class=""><div class="layui-table-cell laytable-cell-4-0-3"><span style="color: #FFB800;">进行中</span></div></td></tr><tr data-index="2"><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td><td data-field="prograss" data-key="4-0-1" class=""><div class="layui-table-cell laytable-cell-4-0-1">陪吃饭</div></td><td data-field="time" data-key="4-0-2" class=""><div class="layui-table-cell laytable-cell-4-0-2">一小时</div></td><td data-field="complete" data-key="4-0-3" data-content="未完成" class=""><div class="layui-table-cell laytable-cell-4-0-3"><span style="color: #FF5722;">未完成</span></div></td></tr><tr data-index="3" class=""><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td><td data-field="prograss" data-key="4-0-1" class=""><div class="layui-table-cell laytable-cell-4-0-1">修改小bug</div></td><td data-field="time" data-key="4-0-2" class=""><div class="layui-table-cell laytable-cell-4-0-2">半小时</div></td><td data-field="complete" data-key="4-0-3" data-content="未完成" class=""><div class="layui-table-cell laytable-cell-4-0-3"><span style="color: #FF5722;">未完成</span></div></td></tr><tr data-index="4"><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td><td data-field="prograss" data-key="4-0-1" class=""><div class="layui-table-cell laytable-cell-4-0-1">修改大bug</div></td><td data-field="time" data-key="4-0-2" class=""><div class="layui-table-cell laytable-cell-4-0-2">两小时</div></td><td data-field="complete" data-key="4-0-3" data-content="未完成" class=""><div class="layui-table-cell laytable-cell-4-0-3"><span style="color: #FF5722;">未完成</span></div></td></tr><tr data-index="5"><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td><td data-field="prograss" data-key="4-0-1" class=""><div class="layui-table-cell laytable-cell-4-0-1">修改小bug</div></td><td data-field="time" data-key="4-0-2" class=""><div class="layui-table-cell laytable-cell-4-0-2">半小时</div></td><td data-field="complete" data-key="4-0-3" data-content="未完成" class=""><div class="layui-table-cell laytable-cell-4-0-3"><span style="color: #FF5722;">未完成</span></div></td></tr><tr data-index="6"><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td><td data-field="prograss" data-key="4-0-1" class=""><div class="layui-table-cell laytable-cell-4-0-1">修改大bug</div></td><td data-field="time" data-key="4-0-2" class=""><div class="layui-table-cell laytable-cell-4-0-2">两小时</div></td><td data-field="complete" data-key="4-0-3" data-content="未完成" class=""><div class="layui-table-cell laytable-cell-4-0-3"><span style="color: #FF5722;">未完成</span></div></td></tr></tbody></table></div><div class="layui-table-fixed layui-table-fixed-l"><div class="layui-table-header"><table cellspacing="0" cellpadding="0" border="0" class="layui-table" lay-skin="line"><thead><tr><th data-field="0" data-key="4-0-0" data-unresize="true" class=" layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary" lay-filter="layTableAllChoose"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></th></tr></thead></table></div><div class="layui-table-body" style="height: 273px;"><table cellspacing="0" cellpadding="0" border="0" class="layui-table" lay-skin="line"><tbody><tr data-index="0" class=""><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary" checked=""><div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td></tr><tr data-index="1"><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary" checked=""><div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td></tr><tr data-index="2"><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td></tr><tr data-index="3" class=""><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td></tr><tr data-index="4"><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td></tr><tr data-index="5"><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td></tr><tr data-index="6"><td data-field="0" data-key="4-0-0" class="layui-table-col-special"><div class="layui-table-cell laytable-cell-4-0-0 laytable-cell-checkbox"><input type="checkbox" name="layTableCheckbox" lay-skin="primary"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></div></td></tr></tbody></table></div></div></div><style>.laytable-cell-4-0-0{ width: 48px; }.laytable-cell-4-0-1{  }.laytable-cell-4-0-2{  }.laytable-cell-4-0-3{  }</style></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="layui-col-sm12">
                             <div class="layui-card">
                                 <div class="layui-card-header">用户全国分布</div>
                                 <div class="layui-card-body">
                                     <div class="layui-row layui-col-space15">
-                                        <div class="layui-col-sm4">
+                                        <div class="layui-col-sm10">
                                             <table class="layui-table layuiadmin-page-table" lay-skin="line">
                                                 <thead>
                                                 <tr>
@@ -371,13 +289,6 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                        </div>
-                                        <div class="layui-col-sm8">
-                                            <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-pagethree" lay-anim="fade" style="width: 100%; height: 280px;">
-                                                <div carousel-item="" id="LAY-index-pagethree">
-                                                    <div class="layui-this" _echarts_instance_="1585307724345" style="-webkit-tap-highlight-color: transparent; user-select: none; background-color: rgba(0, 0, 0, 0); cursor: pointer;"><div style="position: relative; overflow: hidden; width: 460px; height: 332px;"><div data-zr-dom-id="bg" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 460px; height: 332px; user-select: none;"></div><canvas width="460" height="332" data-zr-dom-id="0" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 460px; height: 332px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas><canvas width="460" height="332" data-zr-dom-id="1" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 460px; height: 332px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas><canvas width="460" height="332" data-zr-dom-id="_zrender_hover_" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 460px; height: 332px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas><div class="echarts-tooltip zr-element" style="position: absolute; display: block; border-style: solid; white-space: nowrap; transition: left 0.4s ease 0s, top 0.4s ease 0s; background-color: rgba(50, 50, 50, 0.5); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); font-family: 微软雅黑, Arial, Verdana, sans-serif; padding: 5px; left: 148px; top: 151px;">全国的 layui 用户分布 <br>西藏 : 60</div></div></div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
