@@ -17,8 +17,10 @@ import sch.xmut.jake.cache.apicache.http.response.CacheResponse;
 import sch.xmut.jake.imagestegangraphy.constants.CacheConstant;
 import sch.xmut.jake.imagestegangraphy.constants.UserConstant;
 import sch.xmut.jake.imagestegangraphy.domain.user.UserEntity;
+import sch.xmut.jake.imagestegangraphy.http.request.user.ExtractImageRequest;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
 import sch.xmut.jake.imagestegangraphy.http.response.LayerResponse;
+import sch.xmut.jake.imagestegangraphy.http.response.user.ExtractResultResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.user.UserResponse;
 import sch.xmut.jake.imagestegangraphy.http.vo.user.User;
 import sch.xmut.jake.imagestegangraphy.repository.user.UserRepository;
@@ -249,6 +251,13 @@ public class UserService {
             user.setFormatUpdateTime(SystemUtils.dateToFormat(userEntity.getUpdateTime()));
         }
         return user;
+    }
+
+    public ExtractResultResponse extractImage(ExtractImageRequest request) {
+        ExtractResultResponse resultResponse = new ExtractResultResponse();
+        resultResponse.setResultImage("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/6ca46525-0c3e-4551-b4a8-7e58a0ec670dOne.bmp");
+        resultResponse.setResultDate("航空母舰999");
+        return resultResponse;
     }
 
 }

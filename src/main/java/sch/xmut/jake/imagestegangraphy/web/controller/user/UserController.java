@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sch.xmut.jake.imagestegangraphy.http.request.user.ExtractImageRequest;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
+import sch.xmut.jake.imagestegangraphy.http.response.user.ExtractResultResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.user.UserResponse;
 import sch.xmut.jake.imagestegangraphy.service.user.UserService;
 
@@ -55,6 +57,13 @@ public class UserController {
     @ResponseBody
     public BaseResponse userGet(@RequestParam String mobile) {
         return userService.userGet(mobile);
+    }
+
+    //还原原始图像并提取数据
+    @PostMapping("/extract-image")
+    @ResponseBody
+    public ExtractResultResponse extractImage(@RequestBody ExtractImageRequest request) {
+        return userService.extractImage(request);
     }
 
 }

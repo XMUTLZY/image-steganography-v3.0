@@ -54,6 +54,67 @@ var infoExtract = {
         }
     },
     method: {
-
+        downloadOrginalImage: function() {
+            var imgUrl = $("#orginal-image").attr("src");
+            var imageName = "orginal.bmp";
+            if (!imgUrl) {
+                layer.msg("没有发现需要下载的图像");
+                return;
+            }
+            infoExtract.method.downloadForCros(imgUrl, imageName);
+        },
+        downloadForCros: function (imageUrl, imageName) {//跨域请求OSS图片 并下载
+            var x = new XMLHttpRequest();
+            x.open("GET", imageUrl, true);
+            x.responseType = 'blob';
+            x.onload=function(e) {
+                var url = window.URL.createObjectURL(x.response)
+                var a = document.createElement('a');
+                a.href = url
+                a.download = imageName;
+                a.click()
+            }
+            x.send();
+        },
+        show_img: function (t) {
+            layer.open({
+                type: 1,
+                title: '预览',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['80%', '80%'], //宽高
+                shadeClose: true, //开启遮罩关闭
+                end: function (index, layero) {
+                    return false;
+                },
+                content: '<div style="text-align:center"><img src="' + $(t).attr('src') + '" /></div>'
+            });
+        },
+        extractImage: function () {
+            layer.load();
+            var majorImage = $("#major-image").attr("src");
+            var assistImage = $("#assist-image").attr("src");
+            if (!majorImage || !assistImage) {
+                layer.msg("请先上传图像");
+                return;
+            }
+            var data = {};
+            data.major_image = majorImage;
+            data.assist_image = assistImage;
+            $.ajax({
+                url: '/user/extract-image',
+                type: 'post',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (result) {
+                    layer.closeAll();
+                    $("#orginal-image").attr("src", result.result_image);
+                    $("#extract-info").html(result.result_date);
+                },
+                error: function () {
+                    layer.msg("数据请求异常");
+                    layer.closeAll();
+                }
+            })
+        }
     }
 }

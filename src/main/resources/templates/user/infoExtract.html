@@ -37,7 +37,9 @@
                     <div class="layui-card-header" style="text-align: center;">
                         还原后的原始图像
                     </div>
-                    <div class="layui-card-body"></div>
+                    <div class="layui-card-body">
+                        <img src="" onclick="infoExtract.method.show_img(this);" id="orginal-image" style="width:50%;height:50%;">
+                    </div>
                 </div>
             </div>
             <div class="layui-col-xs4">
@@ -46,7 +48,8 @@
                         操作栏
                     </div>
                     <div class="layui-card-body" style="margin:40px auto;">
-                        <button class="layui-btn layui-btn-normal">图像还原</button>
+                        <button class="layui-btn layui-btn-normal" onclick="infoExtract.method.extractImage();">图像还原</button>
+                        <button class="layui-btn" onclick="infoExtract.method.downloadOrginalImage();">下载</button>
                     </div>
                 </div>
             </div>
@@ -55,7 +58,9 @@
                     <div class="layui-card-header" style="text-align: center;">
                         提取出的秘密数据
                     </div>
-                    <div class="layui-card-body"></div>
+                    <div class="layui-card-body" style="margin-top: 30px; color: #e1090e;">
+                        <label id="extract-info"></label>
+                    </div>
                 </div>
             </div>
         </div>
