@@ -43,7 +43,7 @@ public class UserService {
 
     public UserResponse get(UserRequest userRequest) {
         UserResponse userResponse = new UserResponse();
-        UserEntity userEntity = userRepository.findByMobile(userRequest.getMobile());
+        UserEntity userEntity = userRepository.findByMobileAndStatus(userRequest.getMobile(), UserConstant.USER_STATUS_PASS);
         if (userEntity == null) {
             userResponse.setMessage("查询不到该用户信息.");
             userResponse.setIsRegister(UserResponse.IS_REGISTER_NO);
@@ -79,7 +79,7 @@ public class UserService {
 
     public BaseResponse login(UserRequest userRequest) {
         BaseResponse baseResponse = new BaseResponse();
-        UserEntity userEntity = userRepository.findByMobile(userRequest.getMobile());
+        UserEntity userEntity = userRepository.findByMobileAndStatus(userRequest.getMobile(), UserConstant.USER_STATUS_PASS);
         User user = buildUserByEntity(userEntity);
         if (userEntity == null) {
             SystemUtils.buildErrorResponse(baseResponse, "用户不存在或已被拉黑");
@@ -117,7 +117,7 @@ public class UserService {
     }
 
     public LayerResponse userDelete(String mobile) {
-        UserEntity userEntity = userRepository.findByMobile(mobile);
+        UserEntity userEntity = userRepository.findByMobileAndStatus(mobile, UserConstant.USER_STATUS_PASS);
         userEntity.setStatus(UserConstant.USER_STATUS_NOPASS);
         userEntity.setUpdateTime(new Date());
         userRepository.save(userEntity);
@@ -126,7 +126,7 @@ public class UserService {
 
     public BaseResponse userGet(String mobile) {
         BaseResponse response = new BaseResponse();
-        UserEntity userEntity = userRepository.findByMobile(mobile);
+        UserEntity userEntity = userRepository.findByMobileAndStatus(mobile, UserConstant.USER_STATUS_PASS);
         if (userEntity == null) {
             return null;
         }
@@ -139,7 +139,7 @@ public class UserService {
     @Transactional
     public BaseResponse userUpdate(UserRequest userRequest) {
         BaseResponse response = new BaseResponse();
-        UserEntity userEntity = userRepository.findByMobile(userRequest.getMobile());
+        UserEntity userEntity = userRepository.findByMobileAndStatus(userRequest.getMobile(), UserConstant.USER_STATUS_PASS);
         if (userEntity == null) {
             SystemUtils.buildErrorResponse(response, "用户不存在");
             return response;
@@ -172,7 +172,7 @@ public class UserService {
     public BaseResponse updatePassword(UserRequest userRequest) {
         BaseResponse response = new BaseResponse();
         User user = getUserInfoFromCache();
-        UserEntity userEntity = userRepository.findByMobile(user.getMobile());
+        UserEntity userEntity = userRepository.findByMobileAndStatus(user.getMobile(), UserConstant.USER_STATUS_PASS);
         String encrypt = userEntity.getEncrypt();
         String encodePassword = new SimpleHash(UserConstant.ENCRYPTION_TYPE, userRequest.getOldPassword(), encrypt, UserConstant.ENCRYPTION_TIMES).toString();
         if (encodePassword.equals(userEntity.getPassword())) {

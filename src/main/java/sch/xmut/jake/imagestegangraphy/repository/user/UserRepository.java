@@ -22,4 +22,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     UserEntity findAllById(Integer id);
     @Query(value = "select * from user u where u.create_time > :lastDate and u.create_time < :nowDate", nativeQuery = true)
     List<UserEntity> findUserByDate(@Param("lastDate") String lastDate, @Param("nowDate") String nowDate);
+    UserEntity findByMobileAndStatus(String mobile, Integer status);
 }

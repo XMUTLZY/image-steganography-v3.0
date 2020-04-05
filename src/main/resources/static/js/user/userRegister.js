@@ -23,7 +23,10 @@ var userRegisterJs = {
                     type: 'post',
                     success: function (result) {
                         if (result.is_register == 1) {
+                            $("#LAY-user-getsmscode").addClass("disabled");
                             layer.msg('该手机号已被注册');
+                        } else {
+                            $("#LAY-user-getsmscode").removeClass("disabled");
                         }
                     },
                     error: function () {
