@@ -255,8 +255,8 @@ public class UserService {
 
     public ExtractResultResponse extractImage(ExtractImageRequest request) {
         ExtractResultResponse resultResponse = new ExtractResultResponse();
-        resultResponse.setResultImage("https://image-steganography.oss-cn-hangzhou.aliyuncs.com/resultImage/6ca46525-0c3e-4551-b4a8-7e58a0ec670dOne.bmp");
-        resultResponse.setResultDate("航空母舰999");
+        resultResponse.setResultImage("http://image-steganography.oss-cn-hangzhou.aliyuncs.com/image/1f5e4c16-713a-422c-941d-68c15cd51acd.bmp");
+        resultResponse.setResultDate("美少女战士");
         return resultResponse;
     }
 
