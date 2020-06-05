@@ -15,6 +15,8 @@ import sch.xmut.jake.imagestegangraphy.http.response.user.ExtractResultResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.user.UserResponse;
 import sch.xmut.jake.imagestegangraphy.service.user.UserService;
 
+import java.io.IOException;
+
 /**
  * Created by jake.lin on 2019/12/25
  */
@@ -62,7 +64,7 @@ public class UserController {
     //还原原始图像并提取数据
     @PostMapping("/extract-image")
     @ResponseBody
-    public ExtractResultResponse extractImage(@RequestBody ExtractImageRequest request) {
+    public ExtractResultResponse extractImage(@RequestBody ExtractImageRequest request) throws IOException {
         return userService.extractImage(request);
     }
 

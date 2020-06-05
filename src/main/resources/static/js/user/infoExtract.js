@@ -106,9 +106,14 @@ var infoExtract = {
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 success: function (result) {
-                    layer.closeAll();
-                    $("#orginal-image").attr("src", result.result_image);
-                    $("#extract-info").html(result.result_date);
+                    if (result.status_code == 200) {
+                        $("#orginal-image").attr("src", result.result_image);
+                        $("#extract-info").html(result.result_date);
+                        layer.closeAll();
+                    } else {
+                        layer.closeAll();
+                        layer.msg(result.message);
+                    }
                 },
                 error: function () {
                     layer.msg("数据请求异常");

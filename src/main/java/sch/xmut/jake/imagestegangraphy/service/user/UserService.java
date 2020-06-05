@@ -15,7 +15,9 @@ import org.springframework.util.StringUtils;
 import sch.xmut.jake.cache.apicache.http.request.CacheRequest;
 import sch.xmut.jake.cache.apicache.http.response.CacheResponse;
 import sch.xmut.jake.imagestegangraphy.constants.CacheConstant;
+import sch.xmut.jake.imagestegangraphy.constants.OrderConstant;
 import sch.xmut.jake.imagestegangraphy.constants.UserConstant;
+import sch.xmut.jake.imagestegangraphy.domain.order.OrderEntity;
 import sch.xmut.jake.imagestegangraphy.domain.user.UserEntity;
 import sch.xmut.jake.imagestegangraphy.http.request.user.ExtractImageRequest;
 import sch.xmut.jake.imagestegangraphy.http.request.user.UserRequest;
@@ -23,11 +25,15 @@ import sch.xmut.jake.imagestegangraphy.http.response.LayerResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.user.ExtractResultResponse;
 import sch.xmut.jake.imagestegangraphy.http.response.user.UserResponse;
 import sch.xmut.jake.imagestegangraphy.http.vo.user.User;
+import sch.xmut.jake.imagestegangraphy.repository.order.OrderRepository;
 import sch.xmut.jake.imagestegangraphy.repository.user.UserRepository;
 import sch.xmut.jake.imagestegangraphy.service.cache.CacheService;
 import sch.xmut.jake.imagestegangraphy.utils.SystemUtils;
 import sch.xmut.jake.imagestegangraphy.http.response.BaseResponse;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +46,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private CacheService cacheService;
+    @Autowired
+    private OrderRepository orderRepository;
 
     public UserResponse get(UserRequest userRequest) {
         UserResponse userResponse = new UserResponse();
@@ -253,10 +261,30 @@ public class UserService {
         return user;
     }
 
-    public ExtractResultResponse extractImage(ExtractImageRequest request) {
+    public ExtractResultResponse extractImage(ExtractImageRequest request) throws IOException {
         ExtractResultResponse resultResponse = new ExtractResultResponse();
-        resultResponse.setResultImage("http://image-steganography.oss-cn-hangzhou.aliyuncs.com/image/1f5e4c16-713a-422c-941d-68c15cd51acd.bmp");
-        resultResponse.setResultDate("美少女战士");
+        //将用户上传的两张图像转化为byte[]
+        byte[] imageByte1 = SystemUtils.getByteByNetImage(request.getMajorImage());
+        byte[] imageByte2 = SystemUtils.getByteByNetImage(request.getAssistImage());
+        User user = getUserInfoFromCache();
+        //排除获取当前用户没有支付的订单
+        List<OrderEntity> orderEntityList = orderRepository.findAllByUserIdAndOrderStatusNot(user.getId(), OrderConstant.PAYMENT_STATUS_NO);
+        for (OrderEntity orderEntity : orderEntityList) {
+            byte[] orderImage1Byte = null;
+            byte[] orderImage2Byte = null;
+            try {
+                orderImage1Byte = SystemUtils.getByteByNetImage(orderEntity.getResultImage1());
+                orderImage2Byte = SystemUtils.getByteByNetImage(orderEntity.getResultImage2());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (Arrays.equals(imageByte1, orderImage1Byte) && Arrays.equals(imageByte2, orderImage2Byte)) {
+                resultResponse.setResultImage(orderEntity.getOrginalImage());
+                resultResponse.setResultDate(orderEntity.getHiddenData());
+                return resultResponse;
+            }
+        }
+        SystemUtils.buildErrorResponse(resultResponse, "该图像未经本站处理");
         return resultResponse;
     }
 
